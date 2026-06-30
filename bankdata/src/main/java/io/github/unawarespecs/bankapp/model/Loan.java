@@ -1,12 +1,11 @@
 package io.github.unawarespecs.bankapp.model;
 
 import lombok.Data;
-import java.util.UUID;
 
 @Data
 public class Loan {
     private int id;
-    private UUID userID;
+    private int userID;
     private double loanMoney;
     private double moneyLeftToRepay;
     private int duration;
