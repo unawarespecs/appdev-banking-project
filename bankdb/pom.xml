@@ -9,7 +9,6 @@
         <relativePath>../pom.xml</relativePath> <!-- Looks up one folder to find root -->
     </parent>
     <artifactId>bankdb</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>bankdb</name>
     <description>bankdb</description>
     <url/>

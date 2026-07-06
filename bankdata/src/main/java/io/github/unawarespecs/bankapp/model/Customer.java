@@ -41,7 +41,7 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return String.format("Customer[username=%s, id=%d, uuid=%s, balance=%,.2f]",
-                super.getUsername(), super.getId(), super.getUuid().toString(), balance);
+        return String.format("Customer[username=%s, pass=%s, id=%d, uuid=%s, balance=%,.2f]",
+                super.getUsername(), super.getPassword(), super.getId(), super.getUuid().toString(), balance);
     }
 }

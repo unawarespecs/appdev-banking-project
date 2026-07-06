@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="700.0" spacing="20.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.MenuController">
+    <padding>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+    </padding>
+
+    <BorderPane prefHeight="460.0" prefWidth="660.0" VBox.vgrow="ALWAYS">
+        <top>
+            <VBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                </padding>
+                <children>
+                    <Label text="Bank Label" textFill="#1e293b">
+                        <font>
+                            <Font name="System Bold" size="22.0" />
+                        </font>
+                    </Label>
+                    <Label text="Main Navigation Menu" textFill="#64748b" />
+                    <Separator prefWidth="200.0">
+                        <VBox.margin>
+                            <Insets top="5.0" />
+                        </VBox.margin>
+                    </Separator>
+                </children>
+            </VBox>
+        </top>
+
+        <left>
+            <VBox maxWidth="200.0" minWidth="160.0" spacing="12.0" style="-fx-background-color: #f8fafc; -fx-background-radius: 8;" BorderPane.alignment="CENTER">
+                <padding>
+                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                </padding>
+                <children>
+                    <Button maxWidth="Infinity" onAction="#onDashboardClick" style="-fx-alignment: BASELINE_LEFT;" text="Dashboard" />
+                    <Button maxWidth="Infinity" onAction="#onTransactionsClick" style="-fx-alignment: BASELINE_LEFT;" text="Transactions" />
+                    <Button maxWidth="Infinity" onAction="#onTransferClick" style="-fx-alignment: BASELINE_LEFT;" text=" Transfer Funds" />
+                    <Button maxWidth="Infinity" onAction="#onSettingsClick" style="-fx-alignment: BASELINE_LEFT;" text="Profile Settings" />
+
+                    <VBox VBox.vgrow="ALWAYS" />
+
+                    <Separator prefWidth="200.0" />
+                    <Button maxWidth="Infinity" onAction="#onLogoutClick" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-alignment: CENTER;" text="Log Out" />
+                </children>
+            </VBox>
+        </left>
+
+        <center>
+            <VBox alignment="CENTER" spacing="15.0" style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-background-radius: 8;" BorderPane.alignment="CENTER">
+                <padding>
+                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                </padding>
+                <children>
+                    <Label text="Welcome Back!" textFill="#0f172a">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Label text="Select an operation from the left sidebar panel to get started." textFill="#64748b" wrapText="true" />
+                </children>
+                <BorderPane.margin>
+                    <Insets left="15.0" />
+                </BorderPane.margin>
+            </VBox>
+        </center>
+    </BorderPane>
+</VBox>
