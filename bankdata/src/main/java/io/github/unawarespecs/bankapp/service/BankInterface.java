@@ -1,8 +1,8 @@
 package io.github.unawarespecs.bankapp.service;
 
-import io.github.unawarespecs.bankapp.model.Customer;
-import io.github.unawarespecs.bankapp.model.Administrator;
-import io.github.unawarespecs.bankapp.model.User;
+import io.github.unawarespecs.bankapp.model.*;
+
+import java.util.List;
 
 public interface BankInterface {
     int getAccountNumber(Customer cust) throws NumberFormatException;
@@ -48,16 +48,23 @@ public interface BankInterface {
     void transferMoney(Customer source, Customer destination, double amt) throws Exception;
 
     // loan stuff
-    java.util.List<io.github.unawarespecs.bankapp.model.LoanPlan> getLoanPlans() throws Exception;
-    void createLoanPlan(io.github.unawarespecs.bankapp.model.LoanPlan plan) throws Exception;
+    List<LoanPlan> getLoanPlans() throws Exception;
+
+    void createLoanPlan(LoanPlan plan) throws Exception;
+
     void deleteLoanPlan(int planId) throws Exception;
 
-    java.util.List<io.github.unawarespecs.bankapp.model.Loan> getLoans(Customer cust) throws Exception;
-    void applyForLoan(Customer cust, io.github.unawarespecs.bankapp.model.LoanPlan plan, double amount) throws Exception;
-    void payLoan(Customer cust, io.github.unawarespecs.bankapp.model.Loan loan, double amount) throws Exception;
+    List<Loan> getLoans(Customer cust) throws Exception;
+
+    void applyForLoan(Customer cust, LoanPlan plan, double amount) throws Exception;
+
+    void payLoan(Customer cust, Loan loan, double amount) throws Exception;
+
     int getCreditScore(Customer cust) throws Exception;
+
     void updateCreditScore(Customer cust, int score) throws Exception;
 
-    java.util.List<io.github.unawarespecs.bankapp.model.Loan> getAllActiveLoans() throws Exception;
-    java.util.List<io.github.unawarespecs.bankapp.model.Loan> searchActiveLoans(String query) throws Exception;
+    List<Loan> getAllActiveLoans() throws Exception;
+
+    List<Loan> searchActiveLoans(String query) throws Exception;
 }
