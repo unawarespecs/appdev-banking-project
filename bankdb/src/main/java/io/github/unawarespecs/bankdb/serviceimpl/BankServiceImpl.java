@@ -3,6 +3,7 @@ package io.github.unawarespecs.bankdb.serviceimpl;
 import io.github.unawarespecs.bankapp.model.*;
 import io.github.unawarespecs.bankapp.entity.*;
 import io.github.unawarespecs.bankapp.repo.*;
+import io.github.unawarespecs.bankapp.repo.TransactionDataRepository;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -318,14 +320,6 @@ public class BankServiceImpl implements BankInterface {
 
         existingData.get().setBalance(cust.getBalance() + amount);
         custDataRepository.save(existingData.get());
-        
-        TransactionData tx = new TransactionData();
-        tx.setCustomerId(existingData.get().getId());
-        tx.setType("Deposit");
-        tx.setAmount(amount);
-        tx.setStatus("Completed");
-        transactionDataRepository.save(tx);
-        
         log.info("Php {} deposited to account {}.", amount,
                 existingData.get().getUsername());
     }
@@ -346,13 +340,6 @@ public class BankServiceImpl implements BankInterface {
 
         existingData.get().setBalance(cust.getBalance() - amount);
         custDataRepository.save(existingData.get());
-
-        TransactionData tx = new TransactionData();
-        tx.setCustomerId(existingData.get().getId());
-        tx.setType("Withdrawal");
-        tx.setAmount(amount);
-        tx.setStatus("Completed");
-        transactionDataRepository.save(tx);
 
         log.info("Php {} withdrawn from account {}.", amount,
                 existingData.get().getUsername());
@@ -385,22 +372,6 @@ public class BankServiceImpl implements BankInterface {
         custDataRepository.save(destData.get());
         sourceData.get().setBalance(source.getBalance() - amt);
         custDataRepository.save(sourceData.get());
-
-        // Log transaction for sender
-        TransactionData txSource = new TransactionData();
-        txSource.setCustomerId(sourceData.get().getId());
-        txSource.setType("Transfer to " + destData.get().getUsername());
-        txSource.setAmount(amt);
-        txSource.setStatus("Completed");
-        transactionDataRepository.save(txSource);
-
-        // Log transaction for recipient
-        TransactionData txDest = new TransactionData();
-        txDest.setCustomerId(destData.get().getId());
-        txDest.setType("Transfer from " + sourceData.get().getUsername());
-        txDest.setAmount(amt);
-        txDest.setStatus("Completed");
-        transactionDataRepository.save(txDest);
 
         log.info("Php {} transferred from account {} to account {}.", amt,
                 sourceData.get().getUsername(), destData.get().getUsername());
@@ -502,13 +473,6 @@ public class BankServiceImpl implements BankInterface {
         loan.setInterestRate(plan.getInterestRate());
         loan.setInstallmentRate(installment.doubleValue());
         loanDataRepository.save(loan);
-
-        TransactionData tx = new TransactionData();
-        tx.setCustomerId(customer.getId());
-        tx.setType("Loan Disbursement (" + plan.getName() + ")");
-        tx.setAmount(amount);
-        tx.setStatus("Completed");
-        transactionDataRepository.save(tx);
     }
 
     @Override
@@ -558,13 +522,6 @@ public class BankServiceImpl implements BankInterface {
         BigDecimal newLeftToRepay = leftToRepay.subtract(payAmount).setScale(2, RoundingMode.HALF_UP);
         loanData.setMoneyLeftToRepay(newLeftToRepay.doubleValue());
         loanDataRepository.save(loanData);
-
-        TransactionData tx = new TransactionData();
-        tx.setCustomerId(customer.getId());
-        tx.setType("Loan Repayment (ID: " + loanData.getId() + ")");
-        tx.setAmount(payAmount.doubleValue());
-        tx.setStatus("Completed");
-        transactionDataRepository.save(tx);
     }
 
     @Override
@@ -631,26 +588,38 @@ public class BankServiceImpl implements BankInterface {
     }
 
     @Override
-    public List<Transaction> getTransactionHistory(Customer cust) throws Exception {
-        Optional<CustomerData> existingCust = custDataRepository.findByUuid(cust.getUuid());
-        if (existingCust.isEmpty()) {
-            log.error("Customer not found.");
-            throw new Exception("Customer not found.");
+    @Transactional(readOnly = true)
+    public List<Transaction> getTransactions(Customer cust) {
+        List<TransactionData> transact = transactionDataRepository.findByCustomerId(cust.getId());
+        if (transact == null) {
+            return java.util.Collections.emptyList();
         }
-        List<TransactionData> dataList = transactionDataRepository.findByCustomerId(existingCust.get().getId());
-        List<Transaction> transactions = new ArrayList<>();
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        for (TransactionData data : dataList) {
-            String dateStr = data.getCreated() != null ? data.getCreated().format(formatter) : "";
-            transactions.add(new Transaction(
-                    data.getId(),
-                    data.getCustomerId(),
-                    dateStr,
-                    data.getType(),
-                    data.getAmount(),
-                    data.getStatus()
-            ));
-        }
-        return transactions;
+
+
+        return transact.stream()
+                .map(entity -> new Transaction(
+                        entity.getId(),
+                        cust.getId(),
+                        entity.getAmount(),
+                        entity.getType(),
+                        entity.getCreated()
+                ))
+                .toList();
     }
+
+    @Override
+    public void addTransaction(Transaction transaction){
+        TransactionData t = new TransactionData();
+        t.setType(transaction.getType());
+        CustomerData customerRef = custDataRepository.getReferenceById(transaction.getCustID());
+        t.setCustomer(customerRef);
+        t.setAmount(transaction.getAmount());
+        transactionDataRepository.save(t);
+    }
+
+    @Override
+    public void deleteTransaction(Transaction transaction){
+        transactionDataRepository.deleteById(transaction.getId());
+    }
+
 }

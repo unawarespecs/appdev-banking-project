@@ -22,7 +22,6 @@ public class MenuController {
 
     @Setter
     private Consumer<Stage> onTransferFundsRequested;
-
     @Setter
     private Consumer<Stage> onSettingsRequested;
 
@@ -74,7 +73,6 @@ public class MenuController {
         if (onTransactHistoryRequested != null) {
             onTransactHistoryRequested.accept(stage);
         }
-
     }
 
     @FXML
@@ -84,8 +82,8 @@ public class MenuController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
 
-        if (onTransferFundsRequested != null) {
-            onTransferFundsRequested.accept(stage);
+        if (onTransactHistoryRequested !=null){
+            onTransactHistoryRequested.accept(stage);
         }
     }
 
@@ -153,7 +151,7 @@ public class MenuController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
 
-        if (onLogoutRequested != null) {
+        if (onLogoutRequested !=null){
             onLogoutRequested.accept(stage);
         }
     }

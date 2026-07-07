@@ -2,23 +2,29 @@ package io.github.unawarespecs.bankapp.model;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class Transaction {
+
     private int id;
-    private int customerId;
-    private String date;
-    private String type;
+    private int custID;
     private double amount;
-    private String status;
+    private String type;
+    private LocalDateTime created;
 
     public Transaction() {}
 
-    public Transaction(int id, int customerId, String date, String type, double amount, String status) {
+    public Transaction(int id, int custID, double amount, String type, LocalDateTime created) {
         this.id = id;
-        this.customerId = customerId;
-        this.date = date;
-        this.type = type;
+        this.custID = custID;
         this.amount = amount;
-        this.status = status;
+        this.type = type;
+        this.created = created;
+    }
+    public Transaction(int custID, double amount, String type) {
+        this.custID = custID;
+        this.amount = amount;
+        this.type = type;
     }
 }

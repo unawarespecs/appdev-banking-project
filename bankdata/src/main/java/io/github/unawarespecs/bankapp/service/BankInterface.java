@@ -68,5 +68,8 @@ public interface BankInterface {
 
     List<Loan> searchActiveLoans(String query) throws Exception;
 
-    List<Transaction> getTransactionHistory(Customer cust) throws Exception;
+    List<Transaction> getTransactions(Customer currentlyLoggedInCustomer);
+
+    void addTransaction(Transaction trans);
+    void deleteTransaction(Transaction trans);
 }
