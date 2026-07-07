@@ -6,9 +6,11 @@ import io.github.unawarespecs.bankdb.controllers.LoanManagerController;
 import io.github.unawarespecs.bankdb.controllers.MenuController;
 import io.github.unawarespecs.bankdb.controllers.LoginController;
 import io.github.unawarespecs.bankdb.controllers.TransferFundsController;
+import io.github.unawarespecs.bankdb.controllers.CustomerSettingsController;
 import io.github.unawarespecs.bankdb.serviceimpl.BankServiceImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jspecify.annotations.NonNull;
 
@@ -63,7 +65,42 @@ public class SceneUtils {
                 });
                 controller.setOnTransferFundsRequested((currentStage) -> {
                     try {
-                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/transfer.fxml", "Transfer Funds", bankService);
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/transfer.fxml", "Transfer Funds", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnSettingsRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/settings.fxml", "Customer Settings", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnDepositRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/deposit.fxml", "Deposit", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnWithdrawRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/withdraw.fxml", "Deposit", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnTransactHistoryRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/transaction.fxml", "Transaction History", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnApplyForLoanRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/loan.fxml", "Deposit", bankService, currentStage);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -141,7 +178,7 @@ public class SceneUtils {
         return controller;
     }
 
-    public static void popUpStage(String fxml, String title, BankInterface bankService) throws IOException {
+    public static void popUpStage(String fxml, String title, BankInterface bankService, Stage owner) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SceneUtils.class.getClassLoader().getResource(fxml.startsWith("/") ? fxml.substring(1) : fxml));
 
         fxmlLoader.setControllerFactory(param -> {
@@ -166,6 +203,25 @@ public class SceneUtils {
                 ).toExternalForm()
         );
         Stage stage = new Stage();
+        stage.initOwner(owner);
+        stage.initModality(Modality.WINDOW_MODAL);
+
+        // allow controllers to register callbacks (e.g. settings controller wants to navigate back to login)
+        Object controller = fxmlLoader.getController();
+        if (controller instanceof CustomerSettingsController) {
+            CustomerSettingsController c = (CustomerSettingsController) controller;
+            c.setOnDeleteComplete(() -> {
+                try {
+                    // close the popup
+                    stage.close();
+                    // change the owning stage to the login screen
+                    SceneUtils.changeStage(owner, "/io/github/unawarespecs/bankapp/jfx/controllers/login.fxml", "Login", bankService);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();
