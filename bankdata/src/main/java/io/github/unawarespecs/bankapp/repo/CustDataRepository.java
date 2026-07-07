@@ -18,5 +18,5 @@ public interface CustDataRepository extends CrudRepository<CustomerData, Integer
     @Query("SELECT cd.id FROM CustomerData cd WHERE cd.username=:user AND cd.password=:pass")
     Integer getCustomerId(@Param("user") String user, @Param("pass") String pass);
 
-
+    void deleteById(Integer id);
 }

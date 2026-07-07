@@ -40,12 +40,12 @@
                 <children>
                     <VBox spacing="5.0">
                         <children>
-                            <Label text="ID" textFill="#475569">
+                            <Label text="Username" textFill="#475569">
                                 <font>
                                     <Font name="System Bold" size="12.0" />
                                 </font>
                             </Label>
-                            <TextField fx:id="usernameField" prefHeight="38.0" promptText="Enter your ID" style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #cbd5e1;" />
+                            <TextField fx:id="usernameField" prefHeight="38.0" promptText="Enter your Username" style="-fx-background-radius: 6; -fx-border-radius: 6; -fx-border-color: #cbd5e1;" />
                         </children>
                     </VBox>
 

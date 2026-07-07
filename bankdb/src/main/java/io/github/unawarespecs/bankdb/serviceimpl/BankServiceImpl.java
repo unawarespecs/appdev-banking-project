@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.time.LocalDateTime.now;
+
 @Service
 public class BankServiceImpl implements BankInterface {
 
@@ -80,19 +82,27 @@ public class BankServiceImpl implements BankInterface {
         List<AdministratorData> adminList = adminDataRepository.findAll();
 
 
-        Stream<User> customerStream = customerList.stream().map(cust -> new User(
+        Stream<User> customerStream = customerList.stream().map(cust -> new Customer(
                 cust.getUuid(),
                 cust.getUsername(),
+                cust.getPassword(),
                 "Customer",
-                false
+                false,
+                cust.getId(),
+                cust.getBalance(),
+                cust.getPin(),
+                cust.isAccountFrozen(),
+                cust.getCreditScore()
         ));
 
 
-        Stream<User> adminStream = adminList.stream().map(admin -> new User(
+        Stream<User> adminStream = adminList.stream().map(admin -> new Administrator(
                 admin.getUuid(),
-                admin.getUsername(),
                 "Admin",
-                true
+                true,
+                admin.getUsername(),
+                admin.getPassword(),
+                admin.getId()
         ));
 
 
@@ -121,56 +131,77 @@ public class BankServiceImpl implements BankInterface {
     }
 
     @Override
-    public void createAccount(Customer cust) throws Exception {
-
-        CustomerData customerData = new CustomerData();
-        customerData.setUuid(cust.getUuid());
-        customerData.setUsername(cust.getUsername());
-        customerData.setPassword(cust.getPassword());
-        customerData.setBalance(cust.getBalance());
-        customerData.setPin(cust.getPin());
-        customerData.setAccountFrozen(cust.isAccountFrozen());
-        customerData.setCreditScore(cust.getCreditScore());
-        if (cust.getId() != 0){
-            customerData.setId(cust.getId());
+    public void createAccount(User user, String type) throws Exception {
+        if (type.equals("customer")) {
+            CustomerData customerData = new CustomerData();
+            customerData.setUuid(user.getUuid());
+            customerData.setUsername(user.getUsername());
+            customerData.setPassword(user.getPassword());
+            customerData.setBalance(0.0);
+            customerData.setPin(1234);
+            customerData.setAccountFrozen(false);
+            customerData.setCreditScore(1000);
+            if (user.getId() != 0) {
+                customerData.setId(user.getId());
+            }
+            log.info("Customer {} created", user);
+            custDataRepository.save(customerData);
+        } else if (type.equals("admin")) {
+            AdministratorData administratorData = new AdministratorData();
+            administratorData.setUuid(user.getUuid());
+            administratorData.setUsername(user.getUsername());
+            administratorData.setPassword(user.getPassword());
+            log.info("Admin {} created", user);
+            adminDataRepository.save(administratorData);
         }
-        log.info("Customer {} created", cust);
-        custDataRepository.save(customerData);
 
 
     }
 
     @Override
-    public Customer updateAccount(Customer cust) throws Exception {
-        Optional<CustomerData> existingData = custDataRepository.findByUuid(cust.getUuid());
+    public User updateAccount(User user) throws Exception {
+        Optional<CustomerData> existingData = custDataRepository.findByUuid(user.getUuid());
+        Optional<AdministratorData> adminData = adminDataRepository.findById(user.getId());
+        if (existingData.isPresent()) {
+            CustomerData data = existingData.get();
+            Customer customerUser = (Customer) user;
 
-        if (existingData.isEmpty()) {
-            throw new Exception("Cannot update: Customer not found.");
+            data.setBalance(customerUser.getBalance());
+            data.setPin(customerUser.getPin());
+            data.setAccountFrozen(customerUser.isAccountFrozen());
+            data.setCreditScore(customerUser.getCreditScore());
+            data.setId(customerUser.getId());
+            data.setUsername(customerUser.getUsername());
+            data.setPassword(customerUser.getPassword());
+            data.setLastUpdated(now());
+            custDataRepository.save(data);
+            log.info("Customer {} info updated.", user);
+        } else if (adminData.isPresent()){
+            AdministratorData data = adminData.get();
+            Administrator admin = (Administrator) user;
+
+            data.setLastUpdated(now());
+            data.setPassword(admin.getPassword());
+            data.setUsername(admin.getUsername());
+            adminDataRepository.save(data);
+            log.info("Admin {} info updated.", user);
         }
-
-        existingData.get().setBalance(cust.getBalance());
-        existingData.get().setPin(cust.getPin());
-        existingData.get().setAccountFrozen(cust.isAccountFrozen());
-        existingData.get().setCreditScore(cust.getCreditScore());
-        existingData.get().setId(cust.getId());
-        existingData.get().setUsername(cust.getUsername());
-        existingData.get().setPassword(cust.getPassword());
-        custDataRepository.save(existingData.get());
-        log.info("Customer {} info updated.", cust);
-        return cust;
+        return user;
     }
 
     @Override
-    public void deleteAccount(Customer cust) throws Exception {
-        Optional<CustomerData> existingData = custDataRepository.findByUuid(cust.getUuid());
+    public void deleteAccount(User user) throws Exception {
+        Optional<CustomerData> existingData = custDataRepository.findByUuid(user.getUuid());
+        Optional<AdministratorData> adminData = adminDataRepository.findByUuid(user.getUuid());
 
-        if (existingData.isEmpty()) {
-            log.error("Cannot delete: Customer not found.");
-            throw new Exception("Cannot delete: Customer not found.");
+        if (adminData.isEmpty() && existingData.isEmpty()){
+            log.error("Cannot delete: Users not found.");
+            throw new Exception("Cannot delete: Users not found.");
         }
 
-        log.info("Customer {} deleted.", cust);
-        custDataRepository.delete(existingData.get());
+        log.info("User {} deleted.", user);
+        existingData.ifPresent(customerData -> custDataRepository.deleteById(customerData.getId()));
+        adminData.ifPresent(administratorData -> adminDataRepository.deleteById(administratorData.getId()));
     }
 
     @Override

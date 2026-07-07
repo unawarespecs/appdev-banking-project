@@ -55,7 +55,6 @@ public class LoginController {
             errorLabel.setText("ID and password fields cannot be empty.");
             return;
         }
-        int id = Integer.parseInt(user);
 
         try {
             Customer[] customers = bankService.getCustomers();
@@ -65,14 +64,14 @@ public class LoginController {
 
             for (Customer cust : customers) {
                 //System.out.println(cust);
-                if (cust.getId() == id && cust.getPassword().equals(password)) {
+                if (cust.getUsername() == user && cust.getPassword().equals(password)) {
                     matchingCustomer = cust;
                     break;
                 }
             }
             if (matchingCustomer == null) {
                 for (Administrator adm : administrators){
-                    if (adm.getId() == id && adm.getPassword().equals(password)){
+                    if (adm.getUsername() == user && adm.getPassword().equals(password)){
                         matchingAdmin = adm;
                         break;
                     }

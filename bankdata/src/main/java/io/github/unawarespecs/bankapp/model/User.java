@@ -29,6 +29,7 @@ public class User {
 
     public User(UUID uuid, String name, String role, boolean isAdmin) {
         this.uuid = uuid;
+        this.username = name;
         this.role = role;
         this.isAdmin = isAdmin;
     }

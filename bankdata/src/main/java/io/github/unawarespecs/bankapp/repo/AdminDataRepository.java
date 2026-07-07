@@ -14,4 +14,8 @@ public interface AdminDataRepository extends CrudRepository<AdministratorData, I
     List<AdministratorData> findAll();
     Optional<AdministratorData> findById(@NonNull Integer id);
     Optional<AdministratorData> findByUuid(UUID uuid);
+
+    void deleteByUuid(UUID uuid);
+
+    void deleteById(int id);
 }

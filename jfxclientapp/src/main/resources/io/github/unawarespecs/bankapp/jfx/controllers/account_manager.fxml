@@ -31,7 +31,7 @@
                         <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#onSearchClick" text="Search" />
                     </children>
                 </HBox>
-                <TableView fx:id="accountTable" VBox.vgrow="ALWAYS">
+                <TableView fx:id="accountTable" editable="true" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colId" prefWidth="75.0" text="Account ID" />
                         <TableColumn fx:id="colName" prefWidth="150.0" text="Name" />
@@ -44,7 +44,7 @@
         </VBox>
         <VBox maxWidth="350.0" minWidth="300.0" spacing="20.0">
             <children>
-                <VBox spacing="10.0" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 15;">
+                <VBox spacing="15.0" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 15;">
                     <children>
                         <Label text="Create Account">
                             <font>
@@ -54,24 +54,16 @@
                         <TextField fx:id="createNameField" promptText="Name of User" />
                         <TextField fx:id="createPasswordField" promptText="Password of User" />
                         <ComboBox fx:id="createRoleBox" maxWidth="1.7976931348623157E308" promptText="Select Role" />
+                        <Button fx:id="createBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCreateClick" styleClass="accent" text="Register Account" />
                     </children>
                 </VBox>
-                <VBox spacing="10.0" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 15;">
-                    <children>
-                        <Label text="Modify / Manage">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Label>
-                        <TextField fx:id="editNameField" promptText="Edit Name" />
-                        <TextField fx:id="editPinField" promptText="Edit PIN" />
-                        <TextField fx:id="editPasswordField" promptText="Edit Password" />
-                        <TextField fx:id="editBalanceField" promptText="Balance Override" />
-                        <Button fx:id="saveDetailsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSaveDetailsClick" text="Save Changes" />
-                        <Button fx:id="freezeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onFreezeClick" text="Freeze/Unfreeze" />
-                        <Button fx:id="deleteBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onDeleteClick" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Delete Account" />
-                    </children>
-                </VBox>
+
+                <HBox fx:id="actionStrip" alignment="CENTER_RIGHT" spacing="15.0" style="-fx-background-color: #f9f9f9; -fx-padding: 10; -fx-border-color: #e0e0e0; -fx-border-radius: 4; -fx-background-radius: 4;">
+               <children>
+                        <Button fx:id="saveDetailsBtn" mnemonicParsing="false" onAction="#onSaveDetailsClick" prefWidth="140.0" text="Save Changes" />
+                        <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#onDeleteClick" prefWidth="140.0" style="-fx-background-color: #d9534f; -fx-text-fill: white;" text="Delete Selected" />
+               </children>
+                </HBox>
             </children>
         </VBox>
     </children>
