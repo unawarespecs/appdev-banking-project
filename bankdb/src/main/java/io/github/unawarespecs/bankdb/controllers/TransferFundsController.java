@@ -4,6 +4,7 @@ import io.github.unawarespecs.bankapp.model.Customer;
 import io.github.unawarespecs.bankapp.model.Notification;
 import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.service.BankInterface;
+import io.github.unawarespecs.bankdb.utils.PINValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -42,7 +43,7 @@ public class TransferFundsController {
         String recipientAccountId = recipientField.getText().trim();
         String amountText = amountField.getText().trim();
 
-        // Validate input fields (Original code)
+        // Validate input fields
         if (recipientAccountId.isEmpty()) {
             showError("Validation Error", "Please enter a recipient account ID.");
             return;
@@ -53,7 +54,7 @@ public class TransferFundsController {
             return;
         }
 
-        // Validate amount (Original code)
+        // Validate amount
         double amount;
         try {
             amount = Double.parseDouble(amountText);
@@ -66,35 +67,15 @@ public class TransferFundsController {
             return;
         }
 
-        // PAGKATAPOS NG VALIDATION, LALABAS ANG PIN POP-UP (Hindi pa nagta-transfer)
-        pinPopupOverlay.setVisible(true);
-    }
-
-    // --- dinagdag ni zaf---
-    @FXML
-    void onCancelPinClick(ActionEvent event) {
-        pinPopupOverlay.setVisible(false);
-        pinEntryField.clear();
-    }
-
-    @FXML
-    void onSubmitPinClick(ActionEvent event) {
-        String enteredPin = pinEntryField.getText().trim();
-
-        if (enteredPin.isEmpty()) {
-            showError("Validation Error", "Please enter your PIN.");
-            return;
-        }
-
-
-        String recipientAccountId = recipientField.getText().trim();
-        double amount = Double.parseDouble(amountField.getText().trim());
-
-        // Get current logged-in customer
+        // Validate PIN using the utility
         Customer sender = bankService.getCurrentlyLoggedInCustomer();
         if (sender == null) {
             showError("Session Error", "No active customer session found.");
-            pinPopupOverlay.setVisible(false);
+            return;
+        }
+
+        if (!PINValidator.validatePIN(sender, "Transfer Funds")) {
+            showError("PIN Verification Failed", "Incorrect PIN. Transfer cancelled.");
             return;
         }
 
@@ -105,16 +86,13 @@ public class TransferFundsController {
             recipient = bankService.getAccount(recipientId);
             if (recipient == null) {
                 showError("Transfer Error", "Recipient account not found.");
-                pinPopupOverlay.setVisible(false);
                 return;
             }
         } catch (NumberFormatException e) {
             showError("Validation Error", "Recipient account ID must be a valid number.");
-            pinPopupOverlay.setVisible(false);
             return;
         } catch (Exception e) {
             showError("Transfer Error", "Error retrieving recipient account: " + e.getMessage());
-            pinPopupOverlay.setVisible(false);
             return;
         }
 
@@ -130,7 +108,6 @@ public class TransferFundsController {
             // Clear fields
             recipientField.clear();
             amountField.clear();
-            pinEntryField.clear();
 
             // Close the transfer window
             Node source = (Node) event.getSource();
@@ -145,14 +122,10 @@ public class TransferFundsController {
             showError("Transfer Failed", e.getMessage());
         } catch (Exception e) {
             showError("Transfer Error", "An error occurred during transfer: " + e.getMessage());
-        } finally {
-            pinPopupOverlay.setVisible(false);
         }
     }
 
-
     private void showInformation(String title, String message) {
-        // (Original code)
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -161,11 +134,16 @@ public class TransferFundsController {
     }
 
     private void showError(String title, String message) {
-        // (Original code)
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void onCancelPinClick(ActionEvent actionEvent) {
+    }
+
+    public void onSubmitPinClick(ActionEvent actionEvent) {
     }
 }

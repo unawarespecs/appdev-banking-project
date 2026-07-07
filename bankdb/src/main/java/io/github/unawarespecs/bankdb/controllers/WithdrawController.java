@@ -3,6 +3,7 @@ package io.github.unawarespecs.bankdb.controllers;
 import io.github.unawarespecs.bankapp.model.Customer;
 import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.service.BankInterface;
+import io.github.unawarespecs.bankdb.utils.PINValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -49,6 +50,12 @@ public class WithdrawController {
             return;
         }
 
+        // Validate PIN before proceeding
+        if (!PINValidator.validatePIN(current, "Withdrawal")) {
+            showError("PIN Verification Failed", "Incorrect PIN. Withdrawal cancelled.");
+            return;
+        }
+
         try {
             bankService.withdrawMoney(current, amount);
             String msg = String.format("Withdrew $%,.2f successfully.", amount);
@@ -71,10 +78,9 @@ public class WithdrawController {
     }
 
     private void showError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+
+    }
+
+    public void handleBackToDashboard(ActionEvent actionEvent) {
     }
 }

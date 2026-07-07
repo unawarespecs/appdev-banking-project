@@ -45,6 +45,12 @@ public interface BankInterface {
 
     void withdrawMoney(Customer cust, double amount) throws Exception;
 
+    /**
+     * Verify a customer's PIN against the stored value.
+     * Returns true if the PIN matches, false otherwise.
+     */
+    boolean verifyPin(Customer cust, int pin) throws Exception;
+
     void transferMoney(Customer source, Customer destination, double amt) throws Exception;
 
     // loan stuff

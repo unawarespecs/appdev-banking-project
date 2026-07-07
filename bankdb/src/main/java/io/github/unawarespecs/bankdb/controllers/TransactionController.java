@@ -1,7 +1,9 @@
 package io.github.unawarespecs.bankdb.controllers;
 
+import io.github.unawarespecs.bankapp.model.Customer;
 import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.service.BankInterface;
+import io.github.unawarespecs.bankdb.utils.PINValidator;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -38,6 +40,8 @@ public class TransactionController
     @Setter
     private Consumer<Stage> onBackRequested;
 
+    private boolean isPINValidated = false;
+
     @javafx.fxml.FXML
     public void initialize() throws Exception {
 
@@ -65,8 +69,12 @@ public class TransactionController
             }
         });
 
-        loadData();
-
+        // Validate PIN before loading transaction data
+        Customer currentCustomer = bankService.getCurrentlyLoggedInCustomer();
+        if (currentCustomer != null && PINValidator.validatePIN(currentCustomer, "View Transaction History")) {
+            isPINValidated = true;
+            loadData();
+        }
     }
 
     public TransactionController(BankInterface bankService) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -26,5 +27,12 @@ public class TransactionData {
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
     private LocalDateTime created;
+
+    // Map the database's last_updated column. Some schemas expect this to be non-null on insert;
+    // annotate with @UpdateTimestamp so Hibernate will populate it on insert/update.
+    @UpdateTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
+    @Column(name = "last_updated", nullable = false)
+    private LocalDateTime lastUpdated;
 
 }

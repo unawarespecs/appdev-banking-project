@@ -309,6 +309,16 @@ public class BankServiceImpl implements BankInterface {
     }
 
     @Override
+    public boolean verifyPin(Customer cust, int pin) throws Exception {
+        Optional<CustomerData> existingData = custDataRepository.findByUuid(cust.getUuid());
+        if (existingData.isEmpty()) {
+            log.error("Cannot verify PIN: Customer not found.");
+            throw new Exception("Cannot verify PIN: Customer not found.");
+        }
+        return existingData.get().getPin() == pin;
+    }
+
+    @Override
     public void depositMoney(Customer cust, double amount) throws Exception {
         Optional<CustomerData> existingData = custDataRepository.findByUuid(cust.getUuid());
 
@@ -322,8 +332,16 @@ public class BankServiceImpl implements BankInterface {
             throw new Exception("Operation denied: Account is frozen.");
         }
 
-        existingData.get().setBalance(cust.getBalance() + amount);
+        // Use the stored balance as the source of truth (not the possibly stale Customer object)
+        double currentBalance = existingData.get().getBalance();
+        double newBalance = BigDecimal.valueOf(currentBalance).add(BigDecimal.valueOf(amount))
+                .setScale(2, RoundingMode.HALF_UP).doubleValue();
+        existingData.get().setBalance(newBalance);
         custDataRepository.save(existingData.get());
+        // If this customer is the currently logged in customer in-memory object, update it too
+        if (this.currentlyLoggedInCustomer != null && this.currentlyLoggedInCustomer.getUuid().equals(cust.getUuid())) {
+            this.currentlyLoggedInCustomer.setBalance(newBalance);
+        }
         log.info("Php {} deposited to account {}.", amount,
                 existingData.get().getUsername());
     }
@@ -342,8 +360,16 @@ public class BankServiceImpl implements BankInterface {
             throw new Exception("Operation denied: Account is frozen.");
         }
 
-        existingData.get().setBalance(cust.getBalance() - amount);
+        // Use the stored balance as the source of truth (not the possibly stale Customer object)
+        double currentBalance = existingData.get().getBalance();
+        double newBalance = BigDecimal.valueOf(currentBalance).subtract(BigDecimal.valueOf(amount))
+                .setScale(2, RoundingMode.HALF_UP).doubleValue();
+        existingData.get().setBalance(newBalance);
         custDataRepository.save(existingData.get());
+        // If this customer is the currently logged in customer in-memory object, update it too
+        if (this.currentlyLoggedInCustomer != null && this.currentlyLoggedInCustomer.getUuid().equals(cust.getUuid())) {
+            this.currentlyLoggedInCustomer.setBalance(newBalance);
+        }
 
         log.info("Php {} withdrawn from account {}.", amount,
                 existingData.get().getUsername());

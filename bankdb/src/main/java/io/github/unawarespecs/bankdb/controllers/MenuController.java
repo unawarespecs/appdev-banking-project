@@ -24,6 +24,7 @@ public class MenuController {
 
     @Setter
     private Consumer<Stage> onTransferFundsRequested;
+
     @Setter
     private Consumer<Stage> onSettingsRequested;
 
