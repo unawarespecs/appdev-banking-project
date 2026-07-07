@@ -77,6 +77,34 @@ public class SceneUtils {
                         e.printStackTrace();
                     }
                 });
+                controller.setOnDepositRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/deposit.fxml", "Deposit", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnWithdrawRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/withdraw.fxml", "Deposit", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnTransactHistoryRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/transaction.fxml", "Transaction History", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnApplyForLoanRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/loan.fxml", "Deposit", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
                 return controller;
             }
             if (param == AdminMenuController.class) {

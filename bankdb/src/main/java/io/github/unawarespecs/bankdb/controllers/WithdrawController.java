@@ -2,9 +2,9 @@ package io.github.unawarespecs.bankdb.controllers;
 
 import io.github.unawarespecs.bankapp.service.BankInterface;
 
-public class LoanController {
+public class WithdrawController {
     private final BankInterface bankService;
-    public LoanController(BankInterface bankService) {
+    public WithdrawController(BankInterface bankService) {
         this.bankService = bankService;
     }
 }
