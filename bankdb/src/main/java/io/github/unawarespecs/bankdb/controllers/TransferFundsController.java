@@ -1,6 +1,7 @@
 package io.github.unawarespecs.bankdb.controllers;
 
 import io.github.unawarespecs.bankapp.model.Customer;
+import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import io.github.unawarespecs.bankdb.utils.PINValidator;
 import javafx.event.ActionEvent;
@@ -97,6 +98,8 @@ public class TransferFundsController {
         // Attempt transfer
         try {
             bankService.transferMoney(sender, recipient, amount);
+            Transaction t = new Transaction(sender.getId(), amount, "Transfer");
+            bankService.addTransaction(t);
             showInformation("Transfer Successful", "Successfully transferred Php " + amount + " to account " + recipient.getUsername());
 
             // Clear fields

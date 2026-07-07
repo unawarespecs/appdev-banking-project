@@ -7,10 +7,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_LEFT" spacing="20.0" stylesheets="@/assets/css/fluent-override.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.WithdrawController">
+<VBox alignment="TOP_LEFT" spacing="20.0" stylesheets="@/assets/css/fluent-override.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankapp.jfx.controllers.CustomerController">
     <padding>
         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
     </padding>
+
+    <Button mnemonicParsing="false" onAction="#handleBackToDashboard" style="-fx-background-color: transparent; -fx-text-fill: #3498db; -fx-cursor: hand; -fx-padding: 0 0 10 0;" text="← Back to Dashboard">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Button>
 
     <VBox spacing="5.0">
         <Label text="Withdraw Funds" textFill="#2c3e50">

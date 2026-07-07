@@ -12,8 +12,6 @@
     <Label text="Transaction History" textFill="#2b5797">
         <font><Font name="System Bold" size="22.0" /></font>
     </Label>
-
-    <Button fx:id="backBtn" mnemonicParsing="false" onAction="#onBackClick" text="← " />
     <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="colDate" text="Date" prefWidth="120.0" />
