@@ -65,6 +65,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!-- Removed accidental dependency on jfxclientapp to avoid reactor cycle. The UI module (jfxclientapp)
+             should depend on bankdb, not the other way around. -->
     </dependencies>
 
     <build>
