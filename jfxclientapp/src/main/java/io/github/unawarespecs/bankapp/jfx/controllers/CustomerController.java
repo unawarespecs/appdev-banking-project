@@ -21,23 +21,15 @@ public class CustomerController {
 
     @FXML
     private void handleDepositSubmit(ActionEvent event) {
-        if (depositStatusLabel != null && depositAmountField != null) {
+        if (depositStatusLabel != null) {
             depositStatusLabel.setText("Deposit of $" + depositAmountField.getText() + " submitted!");
         }
     }
 
     @FXML
     private void handleWithdrawSubmit(ActionEvent event) {
-        if (withdrawStatusLabel != null && withdrawAmountField != null) {
+        if (withdrawStatusLabel != null) {
             withdrawStatusLabel.setText("Withdrawal of $" + withdrawAmountField.getText() + " submitted!");
         }
-    }
-
-    @FXML
-    private void handleBackToDashboard(ActionEvent event) {
-        System.out.println("Redirecting to dashboard...");
-
-        //when you r ready to link your view switching u can use your helper methods here
-        //(e.g., sceneUtils or loading menu.fxml again)
     }
 }

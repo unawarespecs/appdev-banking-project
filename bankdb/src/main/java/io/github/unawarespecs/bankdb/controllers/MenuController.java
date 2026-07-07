@@ -36,6 +36,9 @@ public class MenuController {
     private Consumer<Stage> onApplyForLoanRequested;
 
     @Setter
+    private Consumer<Stage> onPayLoanRequested;
+
+    @Setter
     private Consumer<Stage> onTransactHistoryRequested;
 
     public MenuController(BankInterface bankService) {
@@ -52,7 +55,8 @@ public class MenuController {
         if (current != null) {
             try {
                 double balance = bankService.checkBalance(current);
-                showInformation("Dashboard", "Welcome back, " + current.getUsername() + "!\nYour current balance is: $" + balance);
+                showInformation("Dashboard", "Welcome back, " + current.getUsername() + "!\nYour current balance is: " +
+                        String.format("Php %,.2f", balance));
             } catch (Exception e) {
                 showError("Error Fetching Balance", e.getMessage());
             }
@@ -67,7 +71,7 @@ public class MenuController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
 
-        if (onTransactHistoryRequested !=null){
+        if (onTransactHistoryRequested != null) {
             onTransactHistoryRequested.accept(stage);
         }
 
@@ -95,6 +99,51 @@ public class MenuController {
             onSettingsRequested.accept(stage);
         }
     }
+
+    @FXML
+    void onDepositClick(ActionEvent event) {
+        System.out.println("Opening account profile settings...");
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        if (onDepositRequested != null) {
+            onDepositRequested.accept(stage);
+        }
+    }
+
+    @FXML
+    void onWithdrawClick(ActionEvent event) {
+        System.out.println("Opening account profile settings...");
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        if (onWithdrawRequested != null) {
+            onWithdrawRequested.accept(stage);
+        }
+    }
+
+    @FXML
+    void onApplyForLoanClick(ActionEvent event) {
+        System.out.println("Opening account profile settings...");
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        if (onApplyForLoanRequested != null) {
+            onApplyForLoanRequested.accept(stage);
+        }
+    }
+
+    @FXML
+    void onPayLoanClick(ActionEvent event) {
+        System.out.println("Opening account profile settings...");
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        if (onPayLoanRequested != null) {
+            onPayLoanRequested.accept(stage);
+        }
+    }
+
 
     @FXML
     void onLogoutClick(ActionEvent event) {
