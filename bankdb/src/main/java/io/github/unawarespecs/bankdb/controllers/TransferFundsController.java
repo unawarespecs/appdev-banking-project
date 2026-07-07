@@ -88,7 +88,7 @@ public class TransferFundsController {
         // Attempt transfer
         try {
             bankService.transferMoney(sender, recipient, amount);
-            showInformation("Transfer Successful", "Successfully transferred $" + amount + " to account " + recipient.getUsername());
+            showInformation("Transfer Successful", "Successfully transferred Php " + amount + " to account " + recipient.getUsername());
 
             // Clear fields
             recipientField.clear();
