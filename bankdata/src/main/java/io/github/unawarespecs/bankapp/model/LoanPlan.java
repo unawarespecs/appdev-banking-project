@@ -26,4 +26,9 @@ public class LoanPlan {
         this.maxAmount = maxAmount;
         this.interestRate = interestRate;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - Max: %,.2f", name, maxAmount);
+    }
 }
