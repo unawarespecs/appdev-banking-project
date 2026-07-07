@@ -2,6 +2,7 @@ package io.github.unawarespecs.bankdb.controllers;
 
 import io.github.unawarespecs.bankapp.model.Customer;
 import io.github.unawarespecs.bankapp.service.BankInterface;
+import io.github.unawarespecs.bankdb.utils.PINValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -48,6 +49,12 @@ public class DepositController {
         Customer current = bankService.getCurrentlyLoggedInCustomer();
         if (current == null) {
             showError("Session Error", "No active customer session found.");
+            return;
+        }
+
+        // Validate PIN before proceeding
+        if (!PINValidator.validatePIN(current, "Deposit")) {
+            showError("PIN Verification Failed", "Incorrect PIN. Deposit cancelled.");
             return;
         }
 

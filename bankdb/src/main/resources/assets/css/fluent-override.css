@@ -1,0 +1,6 @@
+@import "fluent-light.css";
+
+.root {
+    -fx-font-family: "Inter", "Segoe UI Variable", sans-serif;
+    -fx-font-smoothing-type: lcd;
+}

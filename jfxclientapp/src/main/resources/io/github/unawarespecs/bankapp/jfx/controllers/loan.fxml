@@ -2,8 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,19 +21,81 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <Label text="Loan money from the bank." textFill="#7f8c8d" />
+        <Label text="Select a loan plan and apply for funds." textFill="#7f8c8d" />
     </VBox>
 
-    <VBox maxWidth="400.0" spacing="8.0">
-        <Label text="Amount to Deposit ($)" textFill="#34495e">
+    <!-- Credit Score Section -->
+    <VBox spacing="5.0">
+        <Label text="Your Credit Score" textFill="#34495e">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="depositAmountField" prefHeight="40.0" promptText="0.00" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+        <Label fx:id="creditScoreLabel" text="Loading..." textFill="#2c3e50">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
     </VBox>
 
-    <Button fx:id="confirmDepositButton" mnemonicParsing="false" onAction="#handleLoanSubmit" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" text="Confirm Deposit" />
+    <!-- Loan Plans Selection -->
+    <VBox maxWidth="400.0" spacing="8.0">
+        <Label text="Available Loan Plans" textFill="#34495e">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="loanPlansComboBox" prefHeight="40.0" prefWidth="400.0" promptText="Select a loan plan" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+    </VBox>
 
-    <Label fx:id="depositStatusLabel" />
+    <!-- Loan Plan Details -->
+    <VBox maxWidth="400.0" spacing="8.0" fx:id="planDetailsBox">
+        <Label text="Plan Details" textFill="#34495e">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <HBox spacing="15.0">
+            <VBox spacing="3.0">
+                <Label text="Duration (months)" textFill="#7f8c8d">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="durationLabel" text="-" textFill="#2c3e50" />
+            </VBox>
+            <VBox spacing="3.0">
+                <Label text="Interest Rate (%)" textFill="#7f8c8d">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="interestRateLabel" text="-" textFill="#2c3e50" />
+            </VBox>
+            <VBox spacing="3.0">
+                <Label text="Max Amount (Php)" textFill="#7f8c8d">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="maxAmountLabel" text="-" textFill="#2c3e50" />
+            </VBox>
+        </HBox>
+    </VBox>
+
+    <!-- Loan Amount -->
+    <VBox maxWidth="400.0" spacing="8.0">
+        <Label text="Loan Amount (Php)" textFill="#34495e">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="loanAmountField" prefHeight="40.0" promptText="Enter amount" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+    </VBox>
+
+    <!-- Apply Button -->
+    <Button fx:id="applyLoanButton" mnemonicParsing="false" onAction="#handleLoanSubmit" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" text="Apply for Loan" />
+
+    <!-- Status Label -->
+    <Label fx:id="statusLabel" style="-fx-text-fill: #2c3e50;" />
 </VBox>

@@ -2,8 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -13,24 +15,72 @@
     </padding>
 
     <VBox spacing="5.0">
-        <Label text="Deposit Funds" textFill="#2c3e50">
+        <Label text="Pay Loan" textFill="#2c3e50">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
-        <Label text="Add money securely to your account balance." textFill="#7f8c8d" />
+        <Label text="Make payments toward your active loans." textFill="#7f8c8d" />
     </VBox>
 
+    <!-- Active Loans Selection -->
     <VBox maxWidth="400.0" spacing="8.0">
-        <Label text="Amount to Deposit ($)" textFill="#34495e">
+        <Label text="Select a Loan to Pay" textFill="#34495e">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="depositAmountField" prefHeight="40.0" promptText="0.00" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+        <ComboBox fx:id="activeLoansComboBox" prefHeight="40.0" prefWidth="400.0" promptText="Select a loan" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
     </VBox>
 
-    <Button fx:id="confirmDepositButton" mnemonicParsing="false" onAction="#payLoanSubmit" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" text="Confirm Deposit" />
+    <!-- Loan Details -->
+    <VBox maxWidth="400.0" spacing="8.0" fx:id="loanDetailsBox">
+        <Label text="Loan Details" textFill="#34495e">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <HBox spacing="15.0">
+            <VBox spacing="3.0">
+                <Label text="Original Amount (Php)" textFill="#7f8c8d">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="loanAmountLabel" text="-" textFill="#2c3e50" />
+            </VBox>
+            <VBox spacing="3.0">
+                <Label text="Remaining (Php)" textFill="#7f8c8d">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="remainingLabel" text="-" textFill="#2c3e50" />
+            </VBox>
+            <VBox spacing="3.0">
+                <Label text="Interest Rate (%)" textFill="#7f8c8d">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <Label fx:id="loanInterestRateLabel" text="-" textFill="#2c3e50" />
+            </VBox>
+        </HBox>
+    </VBox>
 
-    <Label fx:id="depositStatusLabel" />
+    <!-- Payment Amount -->
+    <VBox maxWidth="400.0" spacing="8.0">
+        <Label text="Payment Amount ($)" textFill="#34495e">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="paymentAmountField" prefHeight="40.0" promptText="Enter amount" style="-fx-background-radius: 5; -fx-border-radius: 5;" />
+    </VBox>
+
+    <!-- Pay Button -->
+    <Button fx:id="payLoanButton" mnemonicParsing="false" onAction="#payLoanSubmit" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" text="Make Payment" />
+
+    <!-- Status Label -->
+    <Label fx:id="paymentStatusLabel" style="-fx-text-fill: #2c3e50;" />
 </VBox>
