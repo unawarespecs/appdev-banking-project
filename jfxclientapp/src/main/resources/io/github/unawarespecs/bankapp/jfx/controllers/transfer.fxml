@@ -4,7 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #ffffff; -fx-padding: 40; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #ffffff; -fx-padding: 40; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="io.github.unawarespecs.bankdb.controllers.TransferFundsController">
     <Label text="Transfer Funds" textFill="#2b5797">
         <font><Font name="System Bold" size="20.0" /></font>
     </Label>
@@ -12,5 +13,5 @@
     <TextField fx:id="recipientField" promptText="Recipient Account ID" prefHeight="40" />
     <TextField fx:id="amountField" promptText="Amount to Transfer" prefHeight="40" />
 
-    <Button text="Confirm Transfer" maxWidth="Infinity" prefHeight="40" style="-fx-background-color: #2b5797; -fx-text-fill: white;" />
+    <Button text="Confirm Transfer" maxWidth="Infinity" prefHeight="40" style="-fx-background-color: #2b5797; -fx-text-fill: white;" onAction="#onConfirmTransferClick" />
 </VBox>

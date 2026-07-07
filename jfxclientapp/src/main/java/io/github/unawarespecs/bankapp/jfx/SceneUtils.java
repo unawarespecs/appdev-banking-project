@@ -5,6 +5,7 @@ import io.github.unawarespecs.bankdb.controllers.AccountManagerController;import
 import io.github.unawarespecs.bankdb.controllers.LoanManagerController;
 import io.github.unawarespecs.bankdb.controllers.MenuController;
 import io.github.unawarespecs.bankdb.controllers.LoginController;
+import io.github.unawarespecs.bankdb.controllers.TransferFundsController;
 import io.github.unawarespecs.bankdb.serviceimpl.BankServiceImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -59,6 +60,13 @@ public class SceneUtils {
                 MenuController controller = new MenuController(bankService);
                 controller.setOnLogoutRequested((currentStage) -> {
                     logout(currentStage, bankService);
+                });
+                controller.setOnTransferFundsRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/transfer.fxml", "Transfer Funds", bankService);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
                 return controller;
             }
@@ -134,9 +142,12 @@ public class SceneUtils {
     }
 
     public static void popUpStage(String fxml, String title, BankInterface bankService) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SceneUtils.class.getResource(fxml));
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneUtils.class.getClassLoader().getResource(fxml.startsWith("/") ? fxml.substring(1) : fxml));
 
         fxmlLoader.setControllerFactory(param -> {
+            if (param == TransferFundsController.class) {
+                return new TransferFundsController(bankService);
+            }
             try {
                 return param.getConstructor(BankInterface.class).newInstance(bankService);
             } catch (Exception e) {

@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.Setter;
 
 import java.util.function.Consumer;
 
@@ -18,6 +19,9 @@ public class MenuController {
     private Consumer<Stage> onLogoutRequested;
     @FXML
     private VBox parentStage;
+
+    @Setter
+    private Consumer<Stage> onTransferFundsRequested;
 
     public MenuController(BankInterface bankService) {
         this.bankService = bankService;
@@ -45,13 +49,20 @@ public class MenuController {
     @FXML
     void onTransactionsClick(ActionEvent event) {
         System.out.println("Redirecting to transaction ledger...");
-        // Future transaction
+
+
     }
 
     @FXML
     void onTransferClick(ActionEvent event) {
         System.out.println("Opening money transfer interface...");
-        // Future logic to transfer
+
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        if (onTransferFundsRequested !=null){
+            onTransferFundsRequested.accept(stage);
+        }
     }
 
     @FXML
