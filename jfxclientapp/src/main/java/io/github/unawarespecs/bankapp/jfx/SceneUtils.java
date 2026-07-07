@@ -2,6 +2,7 @@ package io.github.unawarespecs.bankapp.jfx;
 
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import io.github.unawarespecs.bankdb.controllers.AccountManagerController;import io.github.unawarespecs.bankdb.controllers.AdminMenuController;
+import io.github.unawarespecs.bankdb.controllers.LoanManagerController;
 import io.github.unawarespecs.bankdb.controllers.MenuController;
 import io.github.unawarespecs.bankdb.serviceimpl.BankServiceImpl;
 import javafx.fxml.FXMLLoader;
@@ -77,6 +78,16 @@ public class SceneUtils {
                 });
                 return controller;
             }
+
+            if (param == LoanManagerController.class) {
+                AccountManagerController controller = new AccountManagerController(bankService);
+                controller.setOnBackRequested((currentStage) -> {
+                    admindashboard(currentStage, bankService);
+                });
+                return controller;
+            }
+
+
 
             // add controllers here
 

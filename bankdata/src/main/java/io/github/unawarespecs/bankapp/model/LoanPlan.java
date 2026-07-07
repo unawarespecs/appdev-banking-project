@@ -19,4 +19,11 @@ public class LoanPlan {
         this.maxAmount = maxAmount;
         this.interestRate = interestRate;
     }
+
+    public LoanPlan(String name, int duration, double maxAmount, double interestRate) {
+        this.name = name;
+        this.duration = duration;
+        this.maxAmount = maxAmount;
+        this.interestRate = interestRate;
+    }
 }

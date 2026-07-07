@@ -64,14 +64,16 @@ public class LoginController {
 
             for (Customer cust : customers) {
                 //System.out.println(cust);
-                if (cust.getUsername() == user && cust.getPassword().equals(password)) {
+                if (cust.getUsername().equals(user) && cust.getPassword().equals(password)) {
                     matchingCustomer = cust;
+                    System.out.println(matchingCustomer);
                     break;
                 }
             }
+
             if (matchingCustomer == null) {
                 for (Administrator adm : administrators){
-                    if (adm.getUsername() == user && adm.getPassword().equals(password)){
+                    if (adm.getUsername().equals(user) && adm.getPassword().equals(password)){
                         matchingAdmin = adm;
                         break;
                     }
@@ -83,6 +85,7 @@ public class LoginController {
                     onAdminLogin.run();
                 }
             }
+
             //System.out.println(matchingCustomer);
             if (matchingCustomer != null) {
                 if (matchingCustomer.isAccountFrozen()) {
@@ -97,7 +100,7 @@ public class LoginController {
                     onSuccessfulLogin.run();
                 }
             } else {
-                errorLabel.setText("Invalid id or password.");
+                errorLabel.setText("Invalid username or password.");
             }
 
         } catch (Exception e) {
