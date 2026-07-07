@@ -16,7 +16,7 @@
             <font><Font name="System Bold" size="24.0" /></font>
         </Label>
 
-        <VBox maxWidth="200" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+        <VBox maxWidth="400" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
             <Label text="Account Details" textFill="#1e293b"><font><Font name="System Bold" size="16.0" /></font></Label>
             <GridPane hgap="15" vgap="12">
                 <Label text="Account Number:" textFill="#64748b" GridPane.columnIndex="0" GridPane.rowIndex="0" />
@@ -43,7 +43,7 @@
             </GridPane>
         </VBox>
 
-        <VBox maxWidth="200" spacing="12" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+        <VBox maxWidth="400" spacing="12" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
             <Label text="Security: Update PIN" textFill="#1e293b"><font><Font name="System Bold" size="16.0" /></font></Label>
             <PasswordField fx:id="oldPinField" prefHeight="40" promptText="Enter old PIN (4 digits)" />
             <PasswordField fx:id="newPinField" prefHeight="40" promptText="Enter new PIN" />
@@ -52,7 +52,7 @@
             <Button onAction="#onBackClick" style="-fx-background-color: #e2e8f0; -fx-text-fill: #1e293b; -fx-padding: 10 20;" text="← Back to Dashboard" />
         </VBox>
 
-        <VBox maxWidth="200" spacing="12" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+        <VBox maxWidth="400" spacing="12" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
             <Label text="Security: Update Password" textFill="#1e293b"><font><Font name="System Bold" size="16.0" /></font></Label>
             <PasswordField fx:id="oldPasswordField" prefHeight="40" promptText="Enter old Password" />
             <PasswordField fx:id="newPasswordField" prefHeight="40" promptText="Enter new Password" />
@@ -60,7 +60,7 @@
             <Button maxWidth="Infinity" onAction="#onSettingsClick" prefHeight="40" style="-fx-background-color: #2b5797; -fx-text-fill: white; -fx-font-weight: bold;" text="Update Password" />
         </VBox>
 
-        <VBox maxWidth="200" spacing="10" style="-fx-background-color: #fee2e2; -fx-padding: 25; -fx-background-radius: 8; -fx-border-color: #ef4444; -fx-border-radius: 8; -fx-border-width: 1;">
+        <VBox maxWidth="400" spacing="10" style="-fx-background-color: #fee2e2; -fx-padding: 25; -fx-background-radius: 8; -fx-border-color: #ef4444; -fx-border-radius: 8; -fx-border-width: 1;">
             <Label text="Danger Zone" textFill="#b91c1c"><font><Font name="System Bold" size="16.0" /></font></Label>
             <Label text="Deleting your account is permanent. This action cannot be undone." textFill="#991b1b" wrapText="true" />
             <Button maxWidth="Infinity" onAction="#onLogoutClick" prefHeight="40" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;" text="Delete Account" />
