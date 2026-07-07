@@ -22,14 +22,14 @@ public class CustomerController {
     @FXML
     private void handleDepositSubmit(ActionEvent event) {
         if (depositStatusLabel != null) {
-            depositStatusLabel.setText("Deposit of $" + depositAmountField.getText() + " submitted!");
+            depositStatusLabel.setText("Deposit of Php " + depositAmountField.getText() + " submitted!");
         }
     }
 
     @FXML
     private void handleWithdrawSubmit(ActionEvent event) {
         if (withdrawStatusLabel != null) {
-            withdrawStatusLabel.setText("Withdrawal of $" + withdrawAmountField.getText() + " submitted!");
+            withdrawStatusLabel.setText("Withdrawal of Php " + withdrawAmountField.getText() + " submitted!");
         }
     }
 }
