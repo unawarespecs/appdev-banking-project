@@ -1,7 +1,6 @@
 package io.github.unawarespecs.bankdb.serviceimpl;
 
 import io.github.unawarespecs.bankapp.model.*;
-import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.entity.*;
 import io.github.unawarespecs.bankapp.repo.*;
 import io.github.unawarespecs.bankapp.repo.TransactionDataRepository;
@@ -44,8 +43,7 @@ public class BankServiceImpl implements BankInterface {
     public BankServiceImpl(AdminDataRepository adminDataRepository,
                        CustDataRepository custDataRepository,
                        LoanDataRepository loanDataRepository,
-                       LoanPlanDataRepository loanPlanDataRepository,
-                       TransactionDataRepository transactionDataRepository) {
+                       LoanPlanDataRepository loanPlanDataRepository) {
         this.adminDataRepository = adminDataRepository;
         this.custDataRepository = custDataRepository;
         this.loanDataRepository = loanDataRepository;
@@ -586,6 +584,30 @@ public class BankServiceImpl implements BankInterface {
             }
         }
         return results;
+    }
+
+    @Override
+    public List<Transaction> getTransactionHistory(Customer cust) throws Exception {
+        Optional<CustomerData> existingCust = custDataRepository.findByUuid(cust.getUuid());
+        if (existingCust.isEmpty()) {
+            log.error("Customer not found.");
+            throw new Exception("Customer not found.");
+        }
+        List<TransactionData> dataList = transactionDataRepository.findByCustomerId(existingCust.get().getId());
+        List<Transaction> transactions = new ArrayList<>();
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        for (TransactionData data : dataList) {
+            String dateStr = data.getCreated() != null ? data.getCreated().format(formatter) : "";
+            transactions.add(new Transaction(
+                    data.getId(),
+                    data.getCustomerId(),
+                    dateStr,
+                    data.getType(),
+                    data.getAmount(),
+                    data.getStatus()
+            ));
+        }
+        return transactions;
     }
 
     @Override

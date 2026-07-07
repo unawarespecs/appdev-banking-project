@@ -1,7 +1,6 @@
 package io.github.unawarespecs.bankapp.service;
 
 import io.github.unawarespecs.bankapp.model.*;
-import io.github.unawarespecs.bankapp.model.Transaction;
 
 import java.util.List;
 
@@ -68,12 +67,4 @@ public interface BankInterface {
     List<Loan> getAllActiveLoans() throws Exception;
 
     List<Loan> searchActiveLoans(String query) throws Exception;
-
-    //transaction history
-    List<io.github.unawarespecs.bankapp.model.Transaction> getTransactions(Customer cust) throws Exception;
-
-    void addTransaction(Transaction transaction) throws Exception;
-
-    void deleteTransaction(Transaction transaction) throws Exception;
-
 }

@@ -8,6 +8,7 @@
 
 <?import javafx.scene.control.Button?>
 <VBox spacing="20.0" style="-fx-background-color: #f4f6f8; -fx-padding: 30;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.TransactionController">
+>
     <Label text="Transaction History" textFill="#2b5797">
         <font><Font name="System Bold" size="22.0" /></font>
     </Label>
@@ -15,10 +16,10 @@
     <Button fx:id="backBtn" mnemonicParsing="false" onAction="#onBackClick" text="← " />
     <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colDate" prefWidth="120.0" text="Date" />
-            <TableColumn fx:id="colType" prefWidth="150.0" text="Type" />
-            <TableColumn fx:id="colAmt" prefWidth="150.0" text="Amount (₱)" />
-            <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status" />
+            <TableColumn fx:id="colDate" text="Date" prefWidth="120.0" />
+            <TableColumn fx:id="colType" text="Type" prefWidth="150.0" />
+            <TableColumn fx:id="colAmount" text="Amount (₱)" prefWidth="150.0" />
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="100.0" />
         </columns>
     </TableView>
 </VBox>
