@@ -82,8 +82,8 @@ public class MenuController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
 
-        if (onTransactHistoryRequested !=null){
-            onTransactHistoryRequested.accept(stage);
+        if (onTransferFundsRequested !=null){
+            onTransferFundsRequested.accept(stage);
         }
     }
 

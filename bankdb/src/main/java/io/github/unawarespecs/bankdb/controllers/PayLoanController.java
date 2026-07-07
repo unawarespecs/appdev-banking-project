@@ -14,7 +14,7 @@ public class PayLoanController {
 
 
         //if success
-        Transaction t = new Transaction(bankService.getCurrentlyLoggedInCustomer().getId(), amount, "Pay Loan");
-        bankService.addTransaction(t);
+        //Transaction t = new Transaction(bankService.getCurrentlyLoggedInCustomer().getId(), amount, "Pay Loan");
+        //bankService.addTransaction(t);
     }
 }

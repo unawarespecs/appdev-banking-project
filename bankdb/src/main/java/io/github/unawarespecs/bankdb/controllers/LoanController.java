@@ -14,7 +14,7 @@ public class LoanController {
 
 
         //if success
-        Transaction t = new Transaction(bankService.getCurrentlyLoggedInCustomer().getId(), amount, "Loan");
-        bankService.addTransaction(t);
+        //Transaction t = new Transaction(bankService.getCurrentlyLoggedInCustomer().getId(), amount, "Loan");
+        //bankService.addTransaction(t);
     }
 }
