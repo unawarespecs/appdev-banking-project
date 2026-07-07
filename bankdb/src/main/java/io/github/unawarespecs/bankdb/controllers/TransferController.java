@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+@Deprecated
 public class TransferController
 {
     @javafx.fxml.FXML
@@ -23,10 +24,10 @@ public class TransferController
     }
 
     @javafx.fxml.FXML
-    public void OnConfirmTransfer(ActionEvent actionEvent) {
+    public void OnConfirmTransfer(ActionEvent actionEvent) throws Exception {
         String recipient = recipientField.getText();
         Double amount = Double.parseDouble(amountField.getText());
 
-        bankService.transferMoney(,bankService.getCurrentlyLoggedInCustomer());
+        bankService.transferMoney(bankService.getCurrentlyLoggedInCustomer(),null,amount);
     }
 }
