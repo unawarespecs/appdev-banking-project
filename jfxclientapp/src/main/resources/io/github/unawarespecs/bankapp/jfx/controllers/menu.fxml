@@ -33,12 +33,18 @@
                 <padding>
                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                 </padding>
+
                 <Button maxWidth="Infinity" onAction="#onDashboardClick" prefHeight="40" style="-fx-alignment: BASELINE_LEFT; -fx-background-color: #e8f0fe; -fx-text-fill: #2b5797; -fx-font-weight: bold;" text="Dashboard Overview" />
+
                 <Button maxWidth="Infinity" onAction="#onTransactionsClick" prefHeight="40" style="-fx-alignment: BASELINE_LEFT;" text="Transaction Ledger" />
+
                 <Button maxWidth="Infinity" onAction="#onTransferClick" prefHeight="40" style="-fx-alignment: BASELINE_LEFT;" text="Transfer Funds" />
+
                 <Button maxWidth="Infinity" onAction="#onSettingsClick" prefHeight="40" style="-fx-alignment: BASELINE_LEFT;" text="Profile Settings" />
+
                 <VBox VBox.vgrow="ALWAYS" />
                 <Separator prefWidth="200.0" />
+
                 <Button maxWidth="Infinity" onAction="#onLogoutClick" prefHeight="40" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-alignment: CENTER; -fx-font-weight: bold;" text="Log Out" />
             </VBox>
         </left>

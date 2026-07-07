@@ -54,5 +54,6 @@
             <Button fx:id="saveDetailsBtn" onAction="#onSaveDetailsClick" prefWidth="140.0" prefHeight="40" style="-fx-background-color: #ff9800; -fx-text-fill: white; -fx-font-weight: bold;" text="Save Changes" />
             <Button fx:id="deleteBtn" onAction="#onDeleteClick" prefWidth="140.0" prefHeight="40" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-weight: bold;" text="Delete Selected" />
         </HBox>
+
     </VBox>
 </HBox>
