@@ -128,7 +128,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>io.github.unawarespecs.bankapp/io.github.unawarespecs.bankapp.jfx.controllers.HelloApplication
+                            <mainClass>io.github.unawarespecs.bankapp.jfx.controllers.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

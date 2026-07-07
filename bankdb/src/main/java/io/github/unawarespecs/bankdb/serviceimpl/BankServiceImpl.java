@@ -208,6 +208,7 @@ public class BankServiceImpl implements BankInterface {
     public Administrator getAdminAccount(Integer id) throws Exception {
         Optional<AdministratorData> existingData = adminDataRepository.findById(id);
         if (existingData.isEmpty()) {
+            log.error("Cannot get: Admin not found.");
             throw new Exception("Cannot get: Admin not found.");
         }
 
@@ -224,6 +225,7 @@ public class BankServiceImpl implements BankInterface {
     public Customer getAccount(Integer id) throws Exception {
         Optional<CustomerData> existingData = custDataRepository.findById(id);
         if (existingData.isEmpty()) {
+            log.error("Cannot get: Customer not found.");
             throw new Exception("Cannot get: Customer not found.");
         }
 
@@ -274,6 +276,7 @@ public class BankServiceImpl implements BankInterface {
         Optional<AdministratorData> existingData = adminDataRepository.findByUuid(admin.getUuid());
 
         if (existingData.isEmpty()) {
+            log.error("Cannot update: Admin not found.");
             throw new Exception("Cannot update: Admin not found.");
         }
 
@@ -288,6 +291,7 @@ public class BankServiceImpl implements BankInterface {
     public double checkBalance(Customer cust) throws Exception {
         Optional<CustomerData> existingData = custDataRepository.findByUuid(cust.getUuid());
         if (existingData.isEmpty()) {
+            log.error("Cannot get: Customer not found.");
             throw new Exception("Cannot get: Customer not found.");
         }
 
@@ -299,11 +303,19 @@ public class BankServiceImpl implements BankInterface {
         Optional<CustomerData> existingData = custDataRepository.findByUuid(cust.getUuid());
 
         if (existingData.isEmpty()) {
+            log.error("Cannot update: Customer not found.");
             throw new Exception("Cannot update: Customer not found.");
+        }
+
+        if (existingData.get().isAccountFrozen()) {
+            log.error("Operation denied: Account is frozen.");
+            throw new Exception("Operation denied: Account is frozen.");
         }
 
         existingData.get().setBalance(cust.getBalance() + amount);
         custDataRepository.save(existingData.get());
+        log.info("Php {} deposited to account {}.", amount,
+                existingData.get().getUsername());
     }
 
     @Override
@@ -311,11 +323,20 @@ public class BankServiceImpl implements BankInterface {
         Optional<CustomerData> existingData = custDataRepository.findByUuid(cust.getUuid());
 
         if (existingData.isEmpty()) {
+            log.error("Cannot update: Customer not found.");
             throw new Exception("Cannot update: Customer not found.");
+        }
+
+        if (existingData.get().isAccountFrozen()) {
+            log.error("Operation denied: Account is frozen.");
+            throw new Exception("Operation denied: Account is frozen.");
         }
 
         existingData.get().setBalance(cust.getBalance() - amount);
         custDataRepository.save(existingData.get());
+
+        log.info("Php {} withdrawn from account {}.", amount,
+                existingData.get().getUsername());
     }
 
     @Override
@@ -323,7 +344,22 @@ public class BankServiceImpl implements BankInterface {
         Optional<CustomerData> sourceData = custDataRepository.findByUuid(source.getUuid());
         Optional<CustomerData> destData = custDataRepository.findByUuid(destination.getUuid());
         if (sourceData.isEmpty() || destData.isEmpty()) {
+            log.error("Cannot update: Customer not found.");
             throw new Exception("Cannot update: Customer not found.");
+        }
+
+        if (sourceData.get().isAccountFrozen()) {
+            log.error("Operation denied: The source account {} is frozen.", sourceData.get().getUsername());
+            throw new Exception(
+                    String.format("Operation denied: The source account %s is frozen.", sourceData.get().getUsername())
+            );
+        }
+
+        if (destData.get().isAccountFrozen()) {
+            log.error("Operation denied: The destination account {} is frozen.", destData.get().getUsername());
+            throw new Exception(
+                    String.format("Operation denied: The destination account %s is frozen.", destData.get().getUsername())
+            );
         }
 
         destData.get().setBalance(destData.get().getBalance() + amt);
@@ -331,6 +367,8 @@ public class BankServiceImpl implements BankInterface {
         sourceData.get().setBalance(source.getBalance() - amt);
         custDataRepository.save(sourceData.get());
 
+        log.info("Php {} transferred from account {} to account {}.", amt,
+                sourceData.get().getUsername(), destData.get().getUsername());
     }
 
     @Override
@@ -368,6 +406,7 @@ public class BankServiceImpl implements BankInterface {
         List<Loan> loans = new ArrayList<>();
         Optional<CustomerData> custData = custDataRepository.findByUuid(cust.getUuid());
         if (custData.isEmpty()) {
+            log.error("Customer not found.");
             throw new Exception("Customer not found.");
         }
         Iterable<LoanData> allLoans = loanDataRepository.findAll();
@@ -391,16 +430,20 @@ public class BankServiceImpl implements BankInterface {
     public void applyForLoan(Customer cust, LoanPlan plan, double amount) throws Exception {
         Optional<CustomerData> existingCust = custDataRepository.findByUuid(cust.getUuid());
         if (existingCust.isEmpty()) {
+            log.error("Customer not found.");
             throw new Exception("Customer not found.");
         }
         CustomerData customer = existingCust.get();
         if (customer.isAccountFrozen()) {
+            log.error("Operation denied: Account is frozen.");
             throw new Exception("Operation denied: Account is frozen.");
         }
         if (amount <= 0) {
+            log.error("Invalid loan amount: Must be greater than 0.");
             throw new Exception("Invalid loan amount: Must be greater than 0.");
         }
         if (amount > plan.getMaxAmount()) {
+            log.error("Invalid loan amount: Exceeds the plan limit of {}", plan.getMaxAmount());
             throw new Exception("Invalid loan amount: Exceeds the plan limit of " + plan.getMaxAmount());
         }
 
@@ -430,21 +473,26 @@ public class BankServiceImpl implements BankInterface {
     public void payLoan(Customer cust, Loan loan, double amount) throws Exception {
         Optional<CustomerData> existingCust = custDataRepository.findByUuid(cust.getUuid());
         if (existingCust.isEmpty()) {
+            log.error("Customer not found.");
             throw new Exception("Customer not found.");
         }
         CustomerData customer = existingCust.get();
         if (customer.isAccountFrozen()) {
+            log.error("Operation denied: Account is frozen.");
             throw new Exception("Operation denied: Account is frozen.");
         }
         if (amount <= 0) {
+            log.error("Payment amount must be positive.");
             throw new Exception("Payment amount must be positive.");
         }
         Optional<LoanData> existingLoan = loanDataRepository.findById(loan.getId());
         if (existingLoan.isEmpty()) {
+            log.error("Loan not found.");
             throw new Exception("Loan not found.");
         }
         LoanData loanData = existingLoan.get();
         if (loanData.getMoneyLeftToRepay() <= 0) {
+            log.error("This loan has already been fully repaid.");
             throw new Exception("This loan has already been fully repaid.");
         }
 
@@ -456,6 +504,7 @@ public class BankServiceImpl implements BankInterface {
 
         BigDecimal balance = BigDecimal.valueOf(customer.getBalance());
         if (balance.compareTo(payAmount) < 0) {
+            log.error("Insufficient funds to make this loan payment.");
             throw new Exception("Insufficient funds to make this loan payment.");
         }
 
@@ -473,6 +522,7 @@ public class BankServiceImpl implements BankInterface {
     public int getCreditScore(Customer cust) throws Exception {
         Optional<CustomerData> existingCust = custDataRepository.findByUuid(cust.getUuid());
         if (existingCust.isEmpty()) {
+            log.error("Customer not found.");
             throw new Exception("Customer not found.");
         }
         return existingCust.get().getCreditScore();
@@ -482,6 +532,7 @@ public class BankServiceImpl implements BankInterface {
     public void updateCreditScore(Customer cust, int score) throws Exception {
         Optional<CustomerData> existingCust = custDataRepository.findByUuid(cust.getUuid());
         if (existingCust.isEmpty()) {
+            log.error("Customer not found.");
             throw new Exception("Customer not found.");
         }
         existingCust.get().setCreditScore(score);
