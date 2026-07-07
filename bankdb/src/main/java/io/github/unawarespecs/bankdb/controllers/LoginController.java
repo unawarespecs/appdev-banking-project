@@ -71,22 +71,6 @@ public class LoginController {
                 }
             }
 
-            if (matchingCustomer == null) {
-                for (Administrator adm : administrators){
-                    if (adm.getUsername().equals(user) && adm.getPassword().equals(password)){
-                        matchingAdmin = adm;
-                        break;
-                    }
-                }
-                bankService.setCurrentlyLoggedInAdmin(matchingAdmin);
-                errorLabel.setText("Login successful! Redirecting...");
-
-                if(onAdminLogin!=null){
-                    onAdminLogin.run();
-                }
-            }
-
-            //System.out.println(matchingCustomer);
             if (matchingCustomer != null) {
                 if (matchingCustomer.isAccountFrozen()) {
                     errorLabel.setText("Access denied: Your account is frozen.");
@@ -94,14 +78,34 @@ public class LoginController {
                 }
 
                 bankService.setCurrentlyLoggedInCustomer(matchingCustomer);
+                bankService.setCurrentlyLoggedInAdmin(null);
                 errorLabel.setText("Login successful! Redirecting...");
 
                 if (onSuccessfulLogin != null) {
                     onSuccessfulLogin.run();
                 }
-            } else {
-                errorLabel.setText("Invalid username or password.");
+                return;
             }
+
+            for (Administrator adm : administrators){
+                if (adm.getUsername().equals(user) && adm.getPassword().equals(password)){
+                    matchingAdmin = adm;
+                    break;
+                }
+            }
+
+            if (matchingAdmin != null) {
+                bankService.setCurrentlyLoggedInAdmin(matchingAdmin);
+                bankService.setCurrentlyLoggedInCustomer(null);
+                errorLabel.setText("Login successful! Redirecting...");
+
+                if (onAdminLogin != null) {
+                    onAdminLogin.run();
+                }
+                return;
+            }
+
+            errorLabel.setText("Invalid username or password.");
 
         } catch (Exception e) {
             errorLabel.setText("Database error: " + e.getMessage());

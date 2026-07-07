@@ -4,6 +4,7 @@ import io.github.unawarespecs.bankapp.service.BankInterface;
 import io.github.unawarespecs.bankdb.controllers.AccountManagerController;import io.github.unawarespecs.bankdb.controllers.AdminMenuController;
 import io.github.unawarespecs.bankdb.controllers.LoanManagerController;
 import io.github.unawarespecs.bankdb.controllers.MenuController;
+import io.github.unawarespecs.bankdb.controllers.LoginController;
 import io.github.unawarespecs.bankdb.serviceimpl.BankServiceImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -40,9 +41,18 @@ public class SceneUtils {
     public static void changeStage(Stage stage, String fxml, String title, BankInterface bankService) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(SceneUtils.class.getClassLoader().getResource(fxml.startsWith("/") ? fxml.substring(1) : fxml));
 
-        // Pass bankService to constructors requiring it
         fxmlLoader.setControllerFactory(param -> {
 
+            if (param == LoginController.class) {
+                LoginController controller = new LoginController(bankService);
+                controller.setOnSuccessfulLogin(() -> {
+                    dashboard(stage, bankService);
+                });
+                controller.setOnAdminLogin(() -> {
+                    admindashboard(stage, bankService);
+                });
+                return controller;
+            }
             if (param == MenuController.class) {
                 MenuController controller = new MenuController(bankService);
                 controller.setOnLogoutRequested((currentStage) -> {
