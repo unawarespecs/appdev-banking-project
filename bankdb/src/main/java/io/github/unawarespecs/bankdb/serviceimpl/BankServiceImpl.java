@@ -1,8 +1,10 @@
 package io.github.unawarespecs.bankdb.serviceimpl;
 
 import io.github.unawarespecs.bankapp.model.*;
+import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.entity.*;
 import io.github.unawarespecs.bankapp.repo.*;
+import io.github.unawarespecs.bankapp.repo.TransactionDataRepository;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -32,6 +35,8 @@ public class BankServiceImpl implements BankInterface {
     private final LoanDataRepository loanDataRepository;
     @Autowired
     private final LoanPlanDataRepository loanPlanDataRepository;
+    @Autowired
+    private final TransactionDataRepository transactionDataRepository;
 
     private Customer currentlyLoggedInCustomer;
     private Administrator currentlyLoggedInAdmin;
@@ -39,11 +44,13 @@ public class BankServiceImpl implements BankInterface {
     public BankServiceImpl(AdminDataRepository adminDataRepository,
                        CustDataRepository custDataRepository,
                        LoanDataRepository loanDataRepository,
-                       LoanPlanDataRepository loanPlanDataRepository) {
+                       LoanPlanDataRepository loanPlanDataRepository,
+                       TransactionDataRepository transactionDataRepository) {
         this.adminDataRepository = adminDataRepository;
         this.custDataRepository = custDataRepository;
         this.loanDataRepository = loanDataRepository;
         this.loanPlanDataRepository = loanPlanDataRepository;
+        this.transactionDataRepository = transactionDataRepository;
     }
 
     @Override
@@ -580,4 +587,40 @@ public class BankServiceImpl implements BankInterface {
         }
         return results;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Transaction> getTransactions(Customer cust) throws Exception {
+        List<TransactionData> transact = transactionDataRepository.findByCustomerId(cust.getId());
+        if (transact == null) {
+            return java.util.Collections.emptyList();
+        }
+
+
+        return transact.stream()
+                .map(entity -> new Transaction(
+                        entity.getId(),
+                        cust.getId(),
+                        entity.getAmount(),
+                        entity.getType(),
+                        entity.getCreated()
+                ))
+                .toList();
+    }
+
+    @Override
+    public void addTransaction(Transaction transaction) throws Exception {
+        TransactionData t = new TransactionData();
+        t.setType(transaction.getType());
+        CustomerData customerRef = custDataRepository.getReferenceById(transaction.getCustID());
+        t.setCustomer(customerRef);
+        t.setAmount(transaction.getAmount());
+        transactionDataRepository.save(t);
+    }
+
+    @Override
+    public void deleteTransaction(Transaction transaction) throws Exception {
+        transactionDataRepository.deleteById(transaction.getId());
+    }
+
 }

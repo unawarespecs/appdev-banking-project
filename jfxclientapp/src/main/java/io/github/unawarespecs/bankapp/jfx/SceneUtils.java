@@ -1,12 +1,7 @@
 package io.github.unawarespecs.bankapp.jfx;
 
 import io.github.unawarespecs.bankapp.service.BankInterface;
-import io.github.unawarespecs.bankdb.controllers.AccountManagerController;import io.github.unawarespecs.bankdb.controllers.AdminMenuController;
-import io.github.unawarespecs.bankdb.controllers.LoanManagerController;
-import io.github.unawarespecs.bankdb.controllers.MenuController;
-import io.github.unawarespecs.bankdb.controllers.LoginController;
-import io.github.unawarespecs.bankdb.controllers.TransferFundsController;
-import io.github.unawarespecs.bankdb.serviceimpl.BankServiceImpl;
+import io.github.unawarespecs.bankdb.controllers.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -67,6 +62,23 @@ public class SceneUtils {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                });
+                controller.setOnTransactionsRequested((currentStage) -> {
+                    try {
+                        changeStage(stage, "io/github/unawarespecs/bankapp/jfx/controllers/transaction.fxml", "View Transaction", bankService);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                return controller;
+
+
+            }
+            if (param == TransactionController.class) {
+                TransactionController controller = new TransactionController(bankService);
+                controller.setOnBackRequested((currentStage) -> {
+                    dashboard(stage, bankService);
                 });
                 return controller;
             }

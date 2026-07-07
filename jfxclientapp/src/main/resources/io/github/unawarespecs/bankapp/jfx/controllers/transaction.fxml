@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="20.0" style="-fx-background-color: #f4f6f8; -fx-padding: 30;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-
->
+<?import javafx.scene.control.Button?>
+<VBox spacing="20.0" style="-fx-background-color: #f4f6f8; -fx-padding: 30;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.TransactionController">
     <Label text="Transaction History" textFill="#2b5797">
         <font><Font name="System Bold" size="22.0" /></font>
     </Label>
 
+    <Button fx:id="backBtn" mnemonicParsing="false" onAction="#onBackClick" text="← " />
     <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="Date" prefWidth="120.0" />
-            <TableColumn text="Type" prefWidth="150.0" />
-            <TableColumn text="Amount (₱)" prefWidth="150.0" />
-            <TableColumn text="Status" prefWidth="100.0" />
+            <TableColumn fx:id="colDate" prefWidth="120.0" text="Date" />
+            <TableColumn fx:id="colType" prefWidth="150.0" text="Type" />
+            <TableColumn fx:id="colAmt" prefWidth="150.0" text="Amount (₱)" />
+            <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status" />
         </columns>
     </TableView>
 </VBox>

@@ -22,6 +22,8 @@ public class MenuController {
 
     @Setter
     private Consumer<Stage> onTransferFundsRequested;
+    @Setter
+    private Consumer<Stage> onTransactionsRequested;
 
     public MenuController(BankInterface bankService) {
         this.bankService = bankService;
@@ -50,7 +52,12 @@ public class MenuController {
     void onTransactionsClick(ActionEvent event) {
         System.out.println("Redirecting to transaction ledger...");
 
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
 
+        if (onTransactionsRequested !=null){
+            onTransactionsRequested.accept(stage);
+        }
     }
 
     @FXML

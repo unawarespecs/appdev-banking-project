@@ -19,4 +19,6 @@ public interface CustDataRepository extends CrudRepository<CustomerData, Integer
     Integer getCustomerId(@Param("user") String user, @Param("pass") String pass);
 
     void deleteById(Integer id);
+
+    CustomerData getReferenceById(Integer id);
 }
