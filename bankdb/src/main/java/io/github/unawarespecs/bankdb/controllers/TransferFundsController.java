@@ -4,16 +4,12 @@ import io.github.unawarespecs.bankapp.model.Customer;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
-
-import java.io.IOException;
 
 public class TransferFundsController {
 
@@ -24,6 +20,13 @@ public class TransferFundsController {
 
     @FXML
     private TextField amountField;
+
+    // --- dinagdag ni zaf ---
+    @FXML
+    private javafx.scene.layout.VBox pinPopupOverlay;
+    @FXML
+    private javafx.scene.control.PasswordField pinEntryField;
+    // -------------------------------
 
     @Setter
     private Runnable onTransferComplete;
@@ -37,7 +40,7 @@ public class TransferFundsController {
         String recipientAccountId = recipientField.getText().trim();
         String amountText = amountField.getText().trim();
 
-        // Validate input fields
+        // Validate input fields (Original code)
         if (recipientAccountId.isEmpty()) {
             showError("Validation Error", "Please enter a recipient account ID.");
             return;
@@ -48,7 +51,7 @@ public class TransferFundsController {
             return;
         }
 
-        // Validate amount
+        // Validate amount (Original code)
         double amount;
         try {
             amount = Double.parseDouble(amountText);
@@ -61,10 +64,35 @@ public class TransferFundsController {
             return;
         }
 
+        // PAGKATAPOS NG VALIDATION, LALABAS ANG PIN POP-UP (Hindi pa nagta-transfer)
+        pinPopupOverlay.setVisible(true);
+    }
+
+    // --- dinagdag ni zaf---
+    @FXML
+    void onCancelPinClick(ActionEvent event) {
+        pinPopupOverlay.setVisible(false);
+        pinEntryField.clear();
+    }
+
+    @FXML
+    void onSubmitPinClick(ActionEvent event) {
+        String enteredPin = pinEntryField.getText().trim();
+
+        if (enteredPin.isEmpty()) {
+            showError("Validation Error", "Please enter your PIN.");
+            return;
+        }
+
+
+        String recipientAccountId = recipientField.getText().trim();
+        double amount = Double.parseDouble(amountField.getText().trim());
+
         // Get current logged-in customer
         Customer sender = bankService.getCurrentlyLoggedInCustomer();
         if (sender == null) {
             showError("Session Error", "No active customer session found.");
+            pinPopupOverlay.setVisible(false);
             return;
         }
 
@@ -75,13 +103,16 @@ public class TransferFundsController {
             recipient = bankService.getAccount(recipientId);
             if (recipient == null) {
                 showError("Transfer Error", "Recipient account not found.");
+                pinPopupOverlay.setVisible(false);
                 return;
             }
         } catch (NumberFormatException e) {
             showError("Validation Error", "Recipient account ID must be a valid number.");
+            pinPopupOverlay.setVisible(false);
             return;
         } catch (Exception e) {
             showError("Transfer Error", "Error retrieving recipient account: " + e.getMessage());
+            pinPopupOverlay.setVisible(false);
             return;
         }
 
@@ -93,6 +124,7 @@ public class TransferFundsController {
             // Clear fields
             recipientField.clear();
             amountField.clear();
+            pinEntryField.clear();
 
             // Close the transfer window
             Node source = (Node) event.getSource();
@@ -107,10 +139,14 @@ public class TransferFundsController {
             showError("Transfer Failed", e.getMessage());
         } catch (Exception e) {
             showError("Transfer Error", "An error occurred during transfer: " + e.getMessage());
+        } finally {
+            pinPopupOverlay.setVisible(false);
         }
     }
 
+
     private void showInformation(String title, String message) {
+        // (Original code)
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -119,6 +155,7 @@ public class TransferFundsController {
     }
 
     private void showError(String title, String message) {
+        // (Original code)
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -126,3 +163,4 @@ public class TransferFundsController {
         alert.showAndWait();
     }
 }
+
