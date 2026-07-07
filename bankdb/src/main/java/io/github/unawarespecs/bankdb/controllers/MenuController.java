@@ -26,6 +26,18 @@ public class MenuController {
     @Setter
     private Consumer<Stage> onSettingsRequested;
 
+    @Setter
+    private Consumer<Stage> onDepositRequested;
+
+    @Setter
+    private Consumer<Stage> onWithdrawRequested;
+
+    @Setter
+    private Consumer<Stage> onApplyForLoanRequested;
+
+    @Setter
+    private Consumer<Stage> onTransactHistoryRequested;
+
     public MenuController(BankInterface bankService) {
         this.bankService = bankService;
     }
@@ -52,6 +64,12 @@ public class MenuController {
     @FXML
     void onTransactionsClick(ActionEvent event) {
         System.out.println("Redirecting to transaction ledger...");
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        if (onTransactHistoryRequested !=null){
+            onTransactHistoryRequested.accept(stage);
+        }
 
     }
 
@@ -62,7 +80,7 @@ public class MenuController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
 
-        if (onTransferFundsRequested !=null){
+        if (onTransferFundsRequested != null) {
             onTransferFundsRequested.accept(stage);
         }
     }
@@ -86,7 +104,7 @@ public class MenuController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
 
-        if (onLogoutRequested !=null){
+        if (onLogoutRequested != null) {
             onLogoutRequested.accept(stage);
         }
     }

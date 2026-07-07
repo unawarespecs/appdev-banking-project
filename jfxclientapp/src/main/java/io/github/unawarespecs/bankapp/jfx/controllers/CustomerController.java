@@ -8,21 +8,17 @@ import javafx.scene.control.TextField;
 
 public class CustomerController {
 
-    // --- Sidebar or Dashboard Labels ---
     @FXML private Label balanceLabel;
     @FXML private TextField amountInput;
 
-    // --- Deposit View Fields ---
     @FXML private TextField depositAmountField;
     @FXML private Button confirmDepositButton;
     @FXML private Label depositStatusLabel;
 
-    // --- Withdraw View Fields ---
     @FXML private TextField withdrawAmountField;
     @FXML private Button confirmWithdrawButton;
     @FXML private Label withdrawStatusLabel;
 
-    // --- Action Methods matching your FXML ---
     @FXML
     private void handleDepositSubmit(ActionEvent event) {
         if (depositStatusLabel != null) {
