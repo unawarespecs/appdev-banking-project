@@ -4,18 +4,49 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #f4f6f8; -fx-padding: 40;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-    <Label text="Profile Settings" textFill="#2b5797">
-        <font><Font name="System Bold" size="22.0" /></font>
-    </Label>
+<ScrollPane fitToWidth="true" style="-fx-background-color: #f4f6f8;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.MenuController">
+    <VBox alignment="TOP_CENTER" spacing="25.0" style="-fx-background-color: #f4f6f8; -fx-padding: 40;">
+        <Label text="Profile &amp; Settings" textFill="#2b5797">
+            <font><Font name="System Bold" size="24.0" /></font>
+        </Label>
 
-    <VBox spacing="10" maxWidth="300">
-        <Label text="New Password" />
-        <PasswordField fx:id="newPasswordField" promptText="Enter new password" />
+        <VBox spacing="10" maxWidth="450" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+            <Label text="Account Details" textFill="#1e293b"><font><Font name="System Bold" size="16.0" /></font></Label>
+            <GridPane hgap="15" vgap="12">
+                <Label text="Account Number:" GridPane.columnIndex="0" GridPane.rowIndex="0" textFill="#64748b"/>
+                <Label fx:id="accNumLabel" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
 
-        <Label text="Confirm Password" />
-        <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" />
+                <Label text="Account Holder:" GridPane.columnIndex="0" GridPane.rowIndex="1" textFill="#64748b"/>
+                <Label fx:id="accNameLabel" text="Loading..." GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
 
-        <Button text="Save Changes" maxWidth="Infinity" style="-fx-background-color: #2b5797; -fx-text-fill: white;" />
+                <Label text="Card Type:" GridPane.columnIndex="0" GridPane.rowIndex="2" textFill="#64748b"/>
+                <Label fx:id="accTypeLabel" text="Debit Card" GridPane.columnIndex="1" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+
+                <Label text="Validity:" GridPane.columnIndex="0" GridPane.rowIndex="3" textFill="#64748b"/>
+                <Label fx:id="accValidityLabel" text="12/29" GridPane.columnIndex="1" GridPane.rowIndex="3" style="-fx-font-weight: bold;"/>
+            </GridPane>
+        </VBox>
+
+        <VBox spacing="12" maxWidth="450" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+            <Label text="Security: Update PIN" textFill="#1e293b"><font><Font name="System Bold" size="16.0" /></font></Label>
+            <PasswordField fx:id="oldPinField" promptText="Enter old PIN (4 digits)" prefHeight="40"/>
+            <PasswordField fx:id="newPinField" promptText="Enter new PIN" prefHeight="40"/>
+            <PasswordField fx:id="confirmPinField" promptText="Confirm new PIN" prefHeight="40"/>
+            <Button text="Update PIN" maxWidth="Infinity" prefHeight="40" style="-fx-background-color: #2b5797; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#onSettingsClick"/>
+        </VBox>
+
+        <VBox spacing="12" maxWidth="450" style="-fx-background-color: #ffffff; -fx-padding: 25; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);">
+            <Label text="Security: Update Password" textFill="#1e293b"><font><Font name="System Bold" size="16.0" /></font></Label>
+            <PasswordField fx:id="oldPasswordField" promptText="Enter old Password" prefHeight="40"/>
+            <PasswordField fx:id="newPasswordField" promptText="Enter new Password" prefHeight="40"/>
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm new Password" prefHeight="40"/>
+            <Button text="Update Password" maxWidth="Infinity" prefHeight="40" style="-fx-background-color: #2b5797; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#onSettingsClick"/>
+        </VBox>
+
+        <VBox spacing="10" maxWidth="450" style="-fx-background-color: #fee2e2; -fx-padding: 25; -fx-background-radius: 8; -fx-border-color: #ef4444; -fx-border-radius: 8; -fx-border-width: 1;">
+            <Label text="Danger Zone" textFill="#b91c1c"><font><Font name="System Bold" size="16.0" /></font></Label>
+            <Label text="Deleting your account is permanent. This action cannot be undone." wrapText="true" textFill="#991b1b"/>
+            <Button text="Delete Account" maxWidth="Infinity" prefHeight="40" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#onLogoutClick"/>
+        </VBox>
     </VBox>
-</VBox>
+</ScrollPane>

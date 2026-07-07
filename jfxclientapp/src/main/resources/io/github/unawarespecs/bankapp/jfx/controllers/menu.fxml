@@ -6,6 +6,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 
 <VBox fx:id="parentStage" alignment="CENTER" prefHeight="550.0" prefWidth="750.0" spacing="20.0" style="-fx-background-color: #f4f6f8;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.MenuController">
     <padding>
@@ -14,14 +16,23 @@
 
     <BorderPane prefHeight="500.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
         <top>
-            <VBox alignment="CENTER_LEFT" spacing="5.0" BorderPane.alignment="CENTER">
+            <VBox spacing="5.0" BorderPane.alignment="CENTER">
                 <padding>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
                 </padding>
-                <Label text="Customer Dashboard" textFill="#2b5797">
-                    <font><Font name="System Bold" size="24.0" /></font>
-                </Label>
-                <Label text="Manage your funds and transactions" textFill="#64748b" />
+                <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <VBox HBox.hgrow="ALWAYS">
+                        <Label text="Customer Dashboard" textFill="#2b5797">
+                            <font><Font name="System Bold" size="24.0" /></font>
+                        </Label>
+                        <Label text="Manage your funds and transactions" textFill="#64748b" />
+                    </VBox>
+
+                    <StackPane alignment="TOP_RIGHT" style="-fx-cursor: hand;">
+                        <Label text="🔔" style="-fx-font-size: 24px;"/>
+                        <Label text="1" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 1 6;" translateY="-2" translateX="5"/>
+                    </StackPane>
+                </HBox>
                 <Separator prefWidth="200.0">
                     <VBox.margin><Insets top="10.0" /></VBox.margin>
                 </Separator>
