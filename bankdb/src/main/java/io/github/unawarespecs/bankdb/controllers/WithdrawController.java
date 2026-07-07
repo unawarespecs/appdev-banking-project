@@ -78,10 +78,9 @@ public class WithdrawController {
     }
 
     private void showError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+
+    }
+
+    public void handleBackToDashboard(ActionEvent actionEvent) {
     }
 }

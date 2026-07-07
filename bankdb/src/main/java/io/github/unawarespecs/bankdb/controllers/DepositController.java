@@ -87,4 +87,7 @@ public class DepositController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    public void handleBackToDashboard(ActionEvent actionEvent) {
+    }
 }
