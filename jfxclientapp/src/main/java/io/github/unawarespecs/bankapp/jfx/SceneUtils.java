@@ -1,0 +1,134 @@
+package io.github.unawarespecs.bankapp.jfx;
+
+import io.github.unawarespecs.bankapp.service.BankInterface;
+import io.github.unawarespecs.bankdb.controllers.AccountManagerController;import io.github.unawarespecs.bankdb.controllers.AdminMenuController;
+import io.github.unawarespecs.bankdb.controllers.MenuController;
+import io.github.unawarespecs.bankdb.serviceimpl.BankServiceImpl;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.Objects;
+
+public class SceneUtils {
+    //commonly used change stages here
+    private static void logout(Stage stage, BankInterface bankService){
+        try {
+            SceneUtils.changeStage(stage, "/io/github/unawarespecs/bankapp/jfx/controllers/login.fxml", "Login", bankService);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void admindashboard(Stage stage, BankInterface bankService){
+        try {
+            SceneUtils.changeStage(stage, "/io/github/unawarespecs/bankapp/jfx/controllers/adminmenu.fxml", "Bank Label - Dashboard", bankService);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void dashboard(Stage stage, BankInterface bankService){
+        try {
+            SceneUtils.changeStage(stage, "/io/github/unawarespecs/bankapp/jfx/controllers/menu.fxml", "Bank Label - Dashboard", bankService);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void changeStage(Stage stage, String fxml, String title, BankInterface bankService) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneUtils.class.getClassLoader().getResource(fxml.startsWith("/") ? fxml.substring(1) : fxml));
+
+        // Pass bankService to constructors requiring it
+        fxmlLoader.setControllerFactory(param -> {
+
+            if (param == MenuController.class) {
+                MenuController controller = new MenuController(bankService);
+                controller.setOnLogoutRequested((currentStage) -> {
+                    logout(currentStage, bankService);
+                });
+                return controller;
+            }
+            if (param == AdminMenuController.class) {
+                AdminMenuController controller = new AdminMenuController(bankService);
+                controller.setOnLogoutRequested((currentStage) -> {
+                    logout(currentStage, bankService);
+                });
+                controller.setOnAccManagerRequested((currentStage) -> {
+                    try {
+                        SceneUtils.changeStage(stage, "/io/github/unawarespecs/bankapp/jfx/controllers/account_manager.fxml", "Bank Label - Account Manager", bankService);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                controller.setOnLoanManagerRequested((currentStage) -> {
+                    try {
+                        SceneUtils.changeStage(stage, "/io/github/unawarespecs/bankapp/jfx/controllers/loan_manager.fxml", "Bank Label - Loan Manager", bankService);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                return controller;
+            }
+            if (param == AccountManagerController.class) {
+                AccountManagerController controller = new AccountManagerController(bankService);
+                controller.setOnBackRequested((currentStage) -> {
+                    admindashboard(currentStage, bankService);
+                });
+                return controller;
+            }
+
+            // add controllers here
+
+            try {
+                return param.getConstructor(BankInterface.class).newInstance(bankService);
+            } catch (NoSuchMethodException e) {
+                try {
+                    return param.getDeclaredConstructor().newInstance();
+                } catch (Exception ex) {
+                    throw new RuntimeException("Failed to instantiate controller: " + param.getName(), ex);
+                }
+            } catch (Exception e){
+                throw new RuntimeException("Dependency injection failed for controller: " + param.getName(), e);
+            }
+        });
+
+        Scene scene = new Scene(fxmlLoader.load());
+        scene.setUserAgentStylesheet(
+                Objects.requireNonNull(
+                        SceneUtils.class.getResource("/assets/css/fluent-override.css")
+                ).toExternalForm()
+        );
+        stage.setMaximized(true);
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void popUpStage(String fxml, String title, BankInterface bankService) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(SceneUtils.class.getResource(fxml));
+
+        fxmlLoader.setControllerFactory(param -> {
+            try {
+                return param.getConstructor(BankInterface.class).newInstance(bankService);
+            } catch (Exception e) {
+                try {
+                    return param.getConstructor().newInstance();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        Scene scene = new Scene(fxmlLoader.load());
+        scene.setUserAgentStylesheet(
+                Objects.requireNonNull(
+                        SceneUtils.class.getResource("/assets/css/fluent-override.css")
+                ).toExternalForm()
+        );
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.show();
+    }
+}

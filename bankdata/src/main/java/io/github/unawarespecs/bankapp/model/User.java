@@ -27,8 +27,9 @@ public class User {
         this.isAdmin = false;
     }
 
-    public User(UUID uuid, String role, boolean isAdmin) {
+    public User(UUID uuid, String name, String role, boolean isAdmin) {
         this.uuid = uuid;
+        this.username = name;
         this.role = role;
         this.isAdmin = isAdmin;
     }

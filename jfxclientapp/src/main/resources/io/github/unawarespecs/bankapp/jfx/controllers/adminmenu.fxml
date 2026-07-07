@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="450.0" prefWidth="400.0" spacing="30.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.AdminMenuController">
+    <children>
+        <Label text="Bank Label">
+            <font>
+                <Font name="System Bold" size="32.0" />
+            </font>
+        </Label>
+        <VBox alignment="CENTER" spacing="15.0" maxWidth="400.0">
+            <children>
+                <Button fx:id="accountManagerBtn" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" onAction="#onAccountManagerClick" text="Account Manager" />
+                <Button fx:id="loanManagerBtn" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" onAction="#onLoanManagerClick" text="Loan Manager" />
+                <Button fx:id="logoutBtn" maxWidth="1.7976931348623157E308" minHeight="50.0" mnemonicParsing="false" onAction="#onLogoutButtonClick" styleClass="accent" text="Logout" />
+            </children>
+        </VBox>
+    </children>
+    <padding>
+        <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+    </padding>
+</VBox>

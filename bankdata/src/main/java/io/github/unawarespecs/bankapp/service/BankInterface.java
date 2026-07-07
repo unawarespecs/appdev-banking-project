@@ -22,11 +22,11 @@ public interface BankInterface {
     // admin operations
     Customer[] getCustomers() throws Exception;
 
-    void createAccount(Customer cust) throws Exception;
+    void createAccount(User user, String type) throws Exception;
 
-    Customer updateAccount(Customer cust) throws Exception;
+    User updateAccount(User user) throws Exception;
 
-    void deleteAccount(Customer cust) throws Exception;
+    void deleteAccount(User user) throws Exception;
 
     Administrator getAdminAccount(Integer id) throws Exception;
 

@@ -27,8 +27,7 @@ public class Customer extends User {
     }
     public Customer(UUID uuid, String username, String password, String role, boolean isAdmin, int id, double balance, int pin, boolean frozen, int creditScore) {
         // Username, password, and role are handled here.
-        super(uuid, role, isAdmin);
-        this.setUsername(username);
+        super(uuid, username, role, isAdmin);
         this.setPassword(password);
         this.setId(id);
         this.setRole(role);
@@ -41,7 +40,7 @@ public class Customer extends User {
 
     @Override
     public String toString() {
-        return String.format("Customer[username=%s, id=%d, uuid=%s, balance=%,.2f]",
-                super.getUsername(), super.getId(), super.getUuid().toString(), balance);
+        return String.format("Customer[username=%s, pass=%s, id=%d, uuid=%s, balance=%,.2f]",
+                super.getUsername(), super.getPassword(), super.getId(), super.getUuid().toString(), balance);
     }
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "customer_data")
+@Table(name = "customer_data", options = "AUTO_INCREMENT=3")
 public class CustomerData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
