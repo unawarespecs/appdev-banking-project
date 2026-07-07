@@ -1,6 +1,7 @@
 package io.github.unawarespecs.bankdb.controllers;
 
 import io.github.unawarespecs.bankapp.model.Customer;
+import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,6 +54,8 @@ public class WithdrawController {
             String msg = String.format("Withdrew $%,.2f successfully.", amount);
             withdrawStatusLabel.setText(msg);
             showInformation("Withdrawal Successful", msg);
+            Transaction t = new Transaction(bankService.getCurrentlyLoggedInCustomer().getId(), amount, "Withdraw");
+            bankService.addTransaction(t);
             withdrawAmountField.clear();
         } catch (Exception e) {
             showError("Withdrawal Failed", e.getMessage());

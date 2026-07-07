@@ -1,6 +1,7 @@
 package io.github.unawarespecs.bankdb.controllers;
 
 import io.github.unawarespecs.bankapp.model.Customer;
+import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,6 +57,8 @@ public class DepositController {
             String msg = String.format("Deposited $%,.2f successfully.", amount);
             depositStatusLabel.setText(msg);
             showInformation("Deposit Successful", msg);
+            Transaction t = new Transaction(bankService.getCurrentlyLoggedInCustomer().getId(), amount, "Deposit");
+            bankService.addTransaction(t);
             depositAmountField.clear();
         } catch (Exception e) {
             showError("Deposit Failed", e.getMessage());
