@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #f4f6f8; -fx-padding: 40;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <Label text="Profile Settings" textFill="#2b5797">
+        <font><Font name="System Bold" size="22.0" /></font>
+    </Label>
+
+    <VBox spacing="10" maxWidth="300">
+        <Label text="New Password" />
+        <PasswordField fx:id="newPasswordField" promptText="Enter new password" />
+
+        <Label text="Confirm Password" />
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" />
+
+        <Button text="Save Changes" maxWidth="Infinity" style="-fx-background-color: #2b5797; -fx-text-fill: white;" />
+    </VBox>
+</VBox>

@@ -19,7 +19,7 @@
                 <padding>
                     <Insets bottom="20.0" top="30.0"/>
                 </padding>
-                <Label text="Bank Management System" textFill="#2b5797">
+                <Label text="Cardinal Trust Bank" textFill="#2b5797">
                     <font>
                         <Font name="System Bold" size="22.0" />
                     </font>
