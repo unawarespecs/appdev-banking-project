@@ -32,8 +32,8 @@
                     </VBox>
 
                     <StackPane alignment="TOP_RIGHT" style="-fx-cursor: hand;">
-                        <Label style="-fx-font-size: 24px;" text="🔔" />
-                        <Label style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 1 6;" text="1" translateX="5" translateY="-2" />
+                        <Label onMouseClicked="#onNotificationClick" style="-fx-font-size: 24px;" text="🔔" />
+                        <Label fx:id="num_id" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 1 6;" text="1" translateX="5" translateY="-2" />
                     </StackPane>
                 </HBox>
                 <Separator prefWidth="200.0">

@@ -86,13 +86,4 @@ public class TransactionController
         transactionTable.getItems().setAll(trans);
     }
 
-    @javafx.fxml.FXML
-    public void onBackClick(ActionEvent actionEvent) {
-        Node source = (Node) actionEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-
-        if (onBackRequested != null) {
-            onBackRequested.accept(stage);
-        }
-    }
 }

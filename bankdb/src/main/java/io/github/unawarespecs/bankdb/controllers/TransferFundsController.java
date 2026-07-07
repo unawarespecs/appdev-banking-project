@@ -1,6 +1,7 @@
 package io.github.unawarespecs.bankdb.controllers;
 
 import io.github.unawarespecs.bankapp.model.Customer;
+import io.github.unawarespecs.bankapp.model.Notification;
 import io.github.unawarespecs.bankapp.model.Transaction;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import io.github.unawarespecs.bankdb.utils.PINValidator;
@@ -100,6 +101,8 @@ public class TransferFundsController {
             bankService.transferMoney(sender, recipient, amount);
             Transaction t = new Transaction(sender.getId(), amount, "Transfer");
             bankService.addTransaction(t);
+            Notification n = new Notification(recipient.getId(), "Transfer", "You have received Php " + amount + " from " + sender.getUsername());
+            bankService.addNotification(n);
             showInformation("Transfer Successful", "Successfully transferred Php " + amount + " to account " + recipient.getUsername());
 
             // Clear fields

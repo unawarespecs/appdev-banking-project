@@ -72,4 +72,9 @@ public interface BankInterface {
 
     void addTransaction(Transaction trans);
     void deleteTransaction(Transaction trans);
+
+    List<Notification> getNotifications(Customer cust);
+
+    void addNotification(Notification notif);
+    void deleteNotification(Notification notif);
 }

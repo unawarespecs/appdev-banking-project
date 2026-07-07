@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "transaction_data")
-public class TransactionData {
+@Table(name = "notification_data")
+public class NotificationData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
@@ -19,7 +19,8 @@ public class TransactionData {
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
     private CustomerData customer;
 
-    String type; //withdraw, transfer, deposit
+    String type; //transfer, loan
+    String status; //pay, receive
     double amount;
 
 

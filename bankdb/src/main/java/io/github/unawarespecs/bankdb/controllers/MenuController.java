@@ -3,10 +3,12 @@ package io.github.unawarespecs.bankdb.controllers;
 import io.github.unawarespecs.bankapp.model.Customer;
 import io.github.unawarespecs.bankapp.service.BankInterface;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Setter;
@@ -41,12 +43,22 @@ public class MenuController {
     @Setter
     private Consumer<Stage> onTransactHistoryRequested;
 
+    @Setter
+    private Consumer<Stage> onNotificationRequested;
+    @FXML
+    private Label num_id;
+
     public MenuController(BankInterface bankService) {
         this.bankService = bankService;
     }
 
     public void setOnLogoutRequested(Consumer<Stage> onLogoutRequested) {
         this.onLogoutRequested = onLogoutRequested;
+    }
+    @FXML
+    public void initialize(){
+        int notifsize = bankService.getNotifications(bankService.getCurrentlyLoggedInCustomer()).size();
+        num_id.setText(String.valueOf(notifsize));
     }
 
     @FXML
@@ -171,5 +183,16 @@ public class MenuController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    public void onNotificationClick(Event event) {
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        if (onNotificationRequested !=null){
+            onNotificationRequested.accept(stage);
+        }
+
     }
 }

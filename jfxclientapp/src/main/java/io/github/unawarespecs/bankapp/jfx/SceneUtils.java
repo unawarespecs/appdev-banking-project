@@ -112,6 +112,13 @@ public class SceneUtils {
                         e.printStackTrace();
                     }
                 });
+                controller.setOnNotificationRequested((currentStage) -> {
+                    try {
+                        popUpStage("io/github/unawarespecs/bankapp/jfx/controllers/notifications.fxml", "Deposit", bankService, currentStage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
                 return controller;
             }
             if (param == AdminMenuController.class) {

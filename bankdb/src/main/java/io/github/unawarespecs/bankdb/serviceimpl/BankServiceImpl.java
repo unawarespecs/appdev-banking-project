@@ -36,6 +36,8 @@ public class BankServiceImpl implements BankInterface {
     private final LoanPlanDataRepository loanPlanDataRepository;
     @Autowired
     private final TransactionDataRepository transactionDataRepository;
+    @Autowired
+    private final NotificationDataRepository notificationDataRepository;
 
     private Customer currentlyLoggedInCustomer;
     private Administrator currentlyLoggedInAdmin;
@@ -44,12 +46,14 @@ public class BankServiceImpl implements BankInterface {
                        CustDataRepository custDataRepository,
                        LoanDataRepository loanDataRepository,
                        LoanPlanDataRepository loanPlanDataRepository,
-                       TransactionDataRepository transactionDataRepository) {
+                       TransactionDataRepository transactionDataRepository,
+                       NotificationDataRepository notificationDataRepository) {
         this.adminDataRepository = adminDataRepository;
         this.custDataRepository = custDataRepository;
         this.loanDataRepository = loanDataRepository;
         this.loanPlanDataRepository = loanPlanDataRepository;
         this.transactionDataRepository = transactionDataRepository;
+        this.notificationDataRepository = notificationDataRepository;
     }
 
     @Override
@@ -620,6 +624,39 @@ public class BankServiceImpl implements BankInterface {
     @Override
     public void deleteTransaction(Transaction transaction){
         transactionDataRepository.deleteById(transaction.getId());
+    }
+
+    @Override
+    public List<Notification> getNotifications(Customer cust) {
+        List<NotificationData> data = notificationDataRepository.findByCustomerId(cust.getId());
+        if (data == null) {
+            return java.util.Collections.emptyList();
+        }
+
+
+        return data.stream()
+                .map(entity -> new Notification(
+                        entity.getId(),
+                        cust.getId(),
+                        entity.getType(),
+                        entity.getStatus(),
+                        entity.getCreated()
+                ))
+                .toList();
+    }
+
+    @Override
+    public void addNotification(Notification notif) {
+        NotificationData t = new NotificationData();
+        t.setCustomer(custDataRepository.getReferenceById(notif.getUserID()));
+        t.setType(notif.getType());
+        t.setStatus(notif.getStatus());
+        notificationDataRepository.save(t);
+    }
+
+    @Override
+    public void deleteNotification(Notification notif) {
+        notificationDataRepository.deleteById(notif.getId());
     }
 
 }
