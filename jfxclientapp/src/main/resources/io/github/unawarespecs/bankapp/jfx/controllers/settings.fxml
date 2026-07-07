@@ -4,7 +4,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToWidth="true" style="-fx-background-color: #f4f6f8;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.MenuController">
+<ScrollPane fitToWidth="true" style="-fx-background-color: #f4f6f8;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.github.unawarespecs.bankdb.controllers.CustomerSettingsController">
     <VBox alignment="TOP_CENTER" spacing="25.0" style="-fx-background-color: #f4f6f8; -fx-padding: 40;">
         <Label text="Profile &amp; Settings" textFill="#2b5797">
             <font><Font name="System Bold" size="24.0" /></font>

@@ -5,7 +5,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox spacing="20.0" style="-fx-background-color: #f4f6f8; -fx-padding: 30;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-
+    fx:controller="io.github.unawarespecs.bankdb.controllers.TransactionLedgerController"
 >
     <Label text="Transaction History" textFill="#2b5797">
         <font><Font name="System Bold" size="22.0" /></font>
@@ -13,10 +13,10 @@
 
     <TableView fx:id="transactionTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="Date" prefWidth="120.0" />
-            <TableColumn text="Type" prefWidth="150.0" />
-            <TableColumn text="Amount (₱)" prefWidth="150.0" />
-            <TableColumn text="Status" prefWidth="100.0" />
+            <TableColumn fx:id="colDate" text="Date" prefWidth="120.0" />
+            <TableColumn fx:id="colType" text="Type" prefWidth="150.0" />
+            <TableColumn fx:id="colAmount" text="Amount (₱)" prefWidth="150.0" />
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="100.0" />
         </columns>
     </TableView>
 </VBox>
