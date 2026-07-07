@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<!-- T -->
+        <!-- T -->
 
 <VBox fx:id="parentStage" alignment="CENTER" prefHeight="550.0" prefWidth="750.0" spacing="20.0" style="-fx-background-color: #f4f6f8;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.unawarespecs.bankdb.controllers.MenuController">
     <padding>

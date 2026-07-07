@@ -205,6 +205,12 @@ public class CustomerSettingsController {
             showError("Delete Failed", e.getMessage());
         }
     }
+    @FXML
+    void onBackClick(ActionEvent event) {
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
 
     private void showInformation(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
